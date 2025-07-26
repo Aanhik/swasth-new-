@@ -25,12 +25,12 @@ interface PriceData {
 }
 
 const mockPriceData: PriceData[] = [
-    { medicine: 'Paracetamol 500mg', pharmacy: 'Netmeds', price: '₹20.00', logoUrl: 'https://placehold.co/100x40.png' },
-    { medicine: 'Paracetamol 500mg', pharmacy: 'Apollo Pharmacy', price: '₹22.50', logoUrl: 'https://placehold.co/100x40.png' },
-    { medicine: 'Paracetamol 500mg', pharmacy: '1mg', price: '₹19.50', logoUrl: 'https://placehold.co/100x40.png' },
-    { medicine: 'Aspirin 75mg', pharmacy: 'Netmeds', price: '₹15.00', logoUrl: 'https://placehold.co/100x40.png' },
-    { medicine: 'Aspirin 75mg', pharmacy: 'Apollo Pharmacy', price: '₹14.50', logoUrl: 'https://placehold.co/100x40.png' },
-    { medicine: 'Aspirin 75mg', pharmacy: '1mg', price: '₹16.00', logoUrl: 'https://placehold.co/100x40.png' },
+    { medicine: 'Paracetamol 500mg', pharmacy: 'Netmeds', price: 'Rs. 20.00', logoUrl: 'https://placehold.co/100x40.png' },
+    { medicine: 'Paracetamol 500mg', pharmacy: 'Apollo Pharmacy', price: 'Rs. 22.50', logoUrl: 'https://placehold.co/100x40.png' },
+    { medicine: 'Paracetamol 500mg', pharmacy: '1mg', price: 'Rs. 19.50', logoUrl: 'https://placehold.co/100x40.png' },
+    { medicine: 'Aspirin 75mg', pharmacy: 'Netmeds', price: 'Rs. 15.00', logoUrl: 'https://placehold.co/100x40.png' },
+    { medicine: 'Aspirin 75mg', pharmacy: 'Apollo Pharmacy', price: 'Rs. 14.50', logoUrl: 'https://placehold.co/100x40.png' },
+    { medicine: 'Aspirin 75mg', pharmacy: '1mg', price: 'Rs. 16.00', logoUrl: 'https://placehold.co/100x40.png' },
 ];
 
 export default function PriceComparison() {
