@@ -1,37 +1,16 @@
-"use client";
 
-import React, { useState } from 'react';
-import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, Upload, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-
-import Dashboard from '@/components/swasth/dashboard';
-import SymptomAnalyzer from '@/components/swasth/symptom-analyzer';
-import MedicalAdvice from '@/components/swasth/medical-advice';
-import AppointmentBooking from '@/components/swasth/appointment-booking';
-import PriceComparison from '@/components/swasth/price-comparison';
-import HealthTips from '@/components/swasth/health-tips';
-import ReadPrescription from '@/components/swasth/read-prescription';
-
-type View = "dashboard" | "symptom-analyzer" | "medical-advice" | "appointment-booking" | "price-comparison" | "health-tips" | "read-prescription";
-
-const viewTitles: Record<View, string> = {
-    dashboard: "Dashboard",
-    "symptom-analyzer": "Symptom Analyzer",
-    "medical-advice": "AI Medical Advice",
-    "appointment-booking": "Book an Appointment",
-    "price-comparison": "Medicine Price Comparison",
-    "health-tips": "Health Tips & Reminders",
-    "read-prescription": "Read Prescription"
-};
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Logo = () => (
   <svg
-    width="28"
-    height="28"
+    width="80"
+    height="80"
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    className="mb-4"
   >
     <path
       d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
@@ -48,87 +27,35 @@ const Logo = () => (
 );
 
 
-export default function Home() {
-  const [activeView, setActiveView] = useState<View>("dashboard");
-
-  const renderView = () => {
-    switch (activeView) {
-      case "symptom-analyzer":
-        return <SymptomAnalyzer />;
-      case "medical-advice":
-        return <MedicalAdvice />;
-      case "appointment-booking":
-        return <AppointmentBooking />;
-      case "price-comparison":
-        return <PriceComparison />;
-      case "health-tips":
-        return <HealthTips />;
-      case "read-prescription":
-        return <ReadPrescription />;
-      case "dashboard":
-      default:
-        return <Dashboard setActiveView={setActiveView} />;
-    }
-  };
-  
-  const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'symptom-analyzer', label: 'Symptom Analyzer', icon: Stethoscope },
-    { id: 'medical-advice', label: 'AI Medical Advice', icon: HeartPulse },
-    { id: 'appointment-booking', label: 'Book Appointment', icon: CalendarCheck },
-    { id: 'price-comparison', label: 'Price Comparison', icon: Scale },
-    { id: 'health-tips', label: 'Health Tips', icon: Lightbulb },
-    { id: 'read-prescription', label: 'Read Prescription', icon: Upload },
-  ] as const;
-
+export default function LandingPage() {
   return (
-    <SidebarProvider>
-      <Sidebar side="left">
-        <SidebarHeader>
-          <div className="flex items-center gap-2 p-2 cursor-pointer" onClick={() => setActiveView('dashboard')}>
-             <Button variant="ghost" size="icon" className="shrink-0 hover:bg-secondary/50">
-                <Logo />
-            </Button>
-            <h2 className="text-xl font-bold font-headline group-data-[collapsible=icon]:hidden">SWASTH</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
+      <Card className="w-full max-w-md text-center p-8 shadow-2xl animate-in fade-in-50 zoom-in-95">
+        <CardHeader>
+          <div className="flex justify-center">
+            <Logo />
           </div>
-        </SidebarHeader>
-        <SidebarMenu>
-          {menuItems.map((item) => (
-            <SidebarMenuItem key={item.id}>
-              <SidebarMenuButton
-                onClick={() => setActiveView(item.id)}
-                isActive={activeView === item.id}
-                tooltip={item.label}
-              >
-                <item.icon />
-                <span>{item.label}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </Sidebar>
-      <SidebarInset>
-        <header className="flex items-center justify-between p-4 bg-card border-b sticky top-0 z-10">
-            <div className="flex items-center gap-2">
-                <SidebarTrigger />
-                {activeView !== 'dashboard' && (
-                    <Button variant="ghost" size="icon" onClick={() => setActiveView('dashboard')}>
-                        <ArrowLeft />
-                    </Button>
-                )}
-                <h1 className="text-xl md:text-2xl font-bold font-headline text-primary">{viewTitles[activeView]}</h1>
-            </div>
-            <div className="flex items-center gap-2 cursor-pointer" onClick={() => setActiveView('dashboard')}>
-               <h2 className="text-xl font-bold font-headline">SWASTH</h2>
-                <Button variant="ghost" size="icon" className="shrink-0 hover:bg-secondary/50">
-                   <Logo />
-               </Button>
-            </div>
-        </header>
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
-            {renderView()}
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+          <CardTitle className="text-4xl font-bold font-headline text-primary">
+            Welcome to SWASTH
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <p className="text-lg text-muted-foreground">
+            Your friendly AI health assistant.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild className="w-full">
+              <Link href="/login">Login</Link>
+            </Button>
+            <Button asChild variant="outline" className="w-full">
+              <Link href="/signup">Sign Up</Link>
+            </Button>
+          </div>
+           <Button asChild variant="link" className="w-full">
+              <Link href="/home">Continue as Guest &rarr;</Link>
+            </Button>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
