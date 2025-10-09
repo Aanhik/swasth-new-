@@ -5,13 +5,13 @@ import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, 
 import { Medal, LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-import Dashboard from '@/components/medimate/dashboard';
-import SymptomAnalyzer from '@/components/medimate/symptom-analyzer';
-import MedicalAdvice from '@/components/medimate/medical-advice';
-import AppointmentBooking from '@/components/medimate/appointment-booking';
-import PriceComparison from '@/components/medimate/price-comparison';
-import HealthTips from '@/components/medimate/health-tips';
-import ReadPrescription from '@/components/medimate/read-prescription';
+import Dashboard from '@/components/swasth/dashboard';
+import SymptomAnalyzer from '@/components/swasth/symptom-analyzer';
+import MedicalAdvice from '@/components/swasth/medical-advice';
+import AppointmentBooking from '@/components/swasth/appointment-booking';
+import PriceComparison from '@/components/swasth/price-comparison';
+import HealthTips from '@/components/swasth/health-tips';
+import ReadPrescription from '@/components/swasth/read-prescription';
 
 type View = "dashboard" | "symptom-analyzer" | "medical-advice" | "appointment-booking" | "price-comparison" | "health-tips" | "read-prescription";
 
@@ -76,7 +76,7 @@ export default function Home() {
             <Button variant="ghost" size="icon" className="shrink-0 text-primary hover:bg-secondary/50">
                 <Medal className="w-7 h-7" />
             </Button>
-            <h2 className="text-xl font-bold font-headline">MediMate</h2>
+            <h2 className="text-xl font-bold font-headline">SWASTH</h2>
           </div>
         </SidebarHeader>
         <SidebarMenu>
