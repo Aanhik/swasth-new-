@@ -84,7 +84,7 @@ export default function Home() {
     <SidebarProvider>
       <Sidebar side="left">
         <SidebarHeader>
-          <div className="flex items-center gap-2 p-2">
+          <div className="flex items-center gap-2 p-2 cursor-pointer" onClick={() => setActiveView('dashboard')}>
              <Button variant="ghost" size="icon" className="shrink-0 hover:bg-secondary/50">
                 <Logo />
             </Button>
@@ -112,7 +112,7 @@ export default function Home() {
                 <SidebarTrigger />
                 <h1 className="text-xl md:text-2xl font-bold font-headline text-primary">{viewTitles[activeView]}</h1>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 cursor-pointer" onClick={() => setActiveView('dashboard')}>
                <h2 className="text-xl font-bold font-headline">SWASTH</h2>
                 <Button variant="ghost" size="icon" className="shrink-0 hover:bg-secondary/50">
                    <Logo />
