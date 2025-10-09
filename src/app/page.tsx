@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { Medal, LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, Upload } from 'lucide-react';
+import { LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import Dashboard from '@/components/swasth/dashboard';
@@ -24,6 +24,27 @@ const viewTitles: Record<View, string> = {
     "health-tips": "Health Tips & Reminders",
     "read-prescription": "Read Prescription"
 };
+
+const Logo = () => (
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="text-primary"
+  >
+    <path
+      d="M17.5 1.917a6.4 6.4 0 0 0-5.5 3.3A6.4 6.4 0 0 0 6.5 1.917 6.8 6.8 0 0 0 0 8.717c0 6.5 8 11.5 12 13.283 4-1.783 12-6.783 12-13.283a6.8 6.8 0 0 0-6.5-6.8Z"
+      fill="currentColor"
+    />
+    <path
+      d="M15 10h-2V8a1 1 0 0 0-2 0v2H9a1 1 0 0 0 0 2h2v2a1 1 0 1 0 2 0v-2h2a1 1 0 1 0 0-2Z"
+      fill="hsl(var(--destructive))"
+    />
+  </svg>
+);
+
 
 export default function Home() {
   const [activeView, setActiveView] = useState<View>("dashboard");
@@ -63,8 +84,8 @@ export default function Home() {
       <Sidebar>
         <SidebarHeader>
           <div className="flex items-center gap-2 p-2">
-             <Button variant="ghost" size="icon" className="shrink-0 text-primary hover:bg-secondary/50">
-                <Medal className="w-7 h-7" />
+             <Button variant="ghost" size="icon" className="shrink-0 hover:bg-secondary/50">
+                <Logo />
             </Button>
             <h2 className="text-xl font-bold font-headline group-data-[collapsible=icon]:hidden">SWASTH</h2>
           </div>
