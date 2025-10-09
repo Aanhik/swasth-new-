@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
-import { Medal, LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb } from 'lucide-react';
+import { Medal, LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, FileScan } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import Dashboard from '@/components/medimate/dashboard';
@@ -11,8 +11,9 @@ import MedicalAdvice from '@/components/medimate/medical-advice';
 import AppointmentBooking from '@/components/medimate/appointment-booking';
 import PriceComparison from '@/components/medimate/price-comparison';
 import HealthTips from '@/components/medimate/health-tips';
+import ReadPrescription from '@/components/medimate/read-prescription';
 
-type View = "dashboard" | "symptom-analyzer" | "medical-advice" | "appointment-booking" | "price-comparison" | "health-tips";
+type View = "dashboard" | "symptom-analyzer" | "medical-advice" | "appointment-booking" | "price-comparison" | "health-tips" | "read-prescription";
 
 const viewTitles: Record<View, string> = {
     dashboard: "Dashboard",
@@ -21,6 +22,7 @@ const viewTitles: Record<View, string> = {
     "appointment-booking": "Book an Appointment",
     "price-comparison": "Medicine Price Comparison",
     "health-tips": "Health Tips & Reminders",
+    "read-prescription": "Read Prescription"
 };
 
 function PageHeader({ title }: { title: string }) {
@@ -48,6 +50,8 @@ export default function Home() {
         return <PriceComparison />;
       case "health-tips":
         return <HealthTips />;
+      case "read-prescription":
+        return <ReadPrescription />;
       case "dashboard":
       default:
         return <Dashboard setActiveView={setActiveView} />;
@@ -61,6 +65,7 @@ export default function Home() {
     { id: 'appointment-booking', label: 'Book Appointment', icon: CalendarCheck },
     { id: 'price-comparison', label: 'Price Comparison', icon: Scale },
     { id: 'health-tips', label: 'Health Tips', icon: Lightbulb },
+    { id: 'read-prescription', label: 'Read Prescription', icon: FileScan },
   ] as const;
 
   return (

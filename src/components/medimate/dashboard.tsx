@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, ArrowRight } from "lucide-react";
+import { Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, ArrowRight, FileScan } from "lucide-react";
 import { Button } from '@/components/ui/button';
 
-type View = "dashboard" | "symptom-analyzer" | "medical-advice" | "appointment-booking" | "price-comparison" | "health-tips";
+type View = "dashboard" | "symptom-analyzer" | "medical-advice" | "appointment-booking" | "price-comparison" | "health-tips" | "read-prescription";
 
 interface DashboardProps {
   setActiveView: (view: View) => void;
@@ -51,6 +51,14 @@ const featureCards = [
     icon: Lightbulb,
     color: "text-yellow-500",
     bgColor: "bg-yellow-50",
+  },
+  {
+    view: "read-prescription" as View,
+    title: "Read Prescription",
+    description: "Use your camera to scan and digitize your prescription.",
+    icon: FileScan,
+    color: "text-indigo-500",
+    bgColor: "bg-indigo-50",
   },
 ];
 
