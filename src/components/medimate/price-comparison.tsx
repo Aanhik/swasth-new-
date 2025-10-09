@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -8,8 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Loader2, Search } from 'lucide-react';
+import { Loader2, Search, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 
 const formSchema = z.object({
   medicine: z.string().min(2, {
@@ -22,15 +23,16 @@ interface PriceData {
     pharmacy: string;
     price: string;
     logoUrl: string;
+    url: string;
 }
 
 const mockPriceData: PriceData[] = [
-    { medicine: 'Paracetamol 500mg', pharmacy: 'Netmeds', price: 'Rs. 20.00', logoUrl: 'https://placehold.co/100x40.png' },
-    { medicine: 'Paracetamol 500mg', pharmacy: 'Apollo Pharmacy', price: 'Rs. 22.50', logoUrl: 'https://placehold.co/100x40.png' },
-    { medicine: 'Paracetamol 500mg', pharmacy: '1mg', price: 'Rs. 19.50', logoUrl: 'https://placehold.co/100x40.png' },
-    { medicine: 'Aspirin 75mg', pharmacy: 'Netmeds', price: 'Rs. 15.00', logoUrl: 'https://placehold.co/100x40.png' },
-    { medicine: 'Aspirin 75mg', pharmacy: 'Apollo Pharmacy', price: 'Rs. 14.50', logoUrl: 'https://placehold.co/100x40.png' },
-    { medicine: 'Aspirin 75mg', pharmacy: '1mg', price: 'Rs. 16.00', logoUrl: 'https://placehold.co/100x40.png' },
+    { medicine: 'Paracetamol 500mg', pharmacy: 'Netmeds', price: 'Rs. 20.00', logoUrl: 'https://placehold.co/100x40/e2f0ff/1d4ed8?text=Netmeds&font=sans', url: '#' },
+    { medicine: 'Paracetamol 500mg', pharmacy: 'Apollo Pharmacy', price: 'Rs. 22.50', logoUrl: 'https://placehold.co/100x40/dcfce7/166534?text=Apollo&font=sans', url: '#' },
+    { medicine: 'Paracetamol 500mg', pharmacy: '1mg', price: 'Rs. 19.50', logoUrl: 'https://placehold.co/100x40/fefce8/ef4444?text=1mg&font=sans', url: '#' },
+    { medicine: 'Aspirin 75mg', pharmacy: 'Netmeds', price: 'Rs. 15.00', logoUrl: 'https://placehold.co/100x40/e2f0ff/1d4ed8?text=Netmeds&font=sans', url: '#' },
+    { medicine: 'Aspirin 75mg', pharmacy: 'Apollo Pharmacy', price: 'Rs. 14.50', logoUrl: 'https://placehold.co/100x40/dcfce7/166534?text=Apollo&font=sans', url: '#' },
+    { medicine: 'Aspirin 75mg', pharmacy: '1mg', price: 'Rs. 16.00', logoUrl: 'https://placehold.co/100x40/fefce8/ef4444?text=1mg&font=sans', url: '#' },
 ];
 
 export default function PriceComparison() {
@@ -111,24 +113,27 @@ export default function PriceComparison() {
           </CardHeader>
           <CardContent>
             {results.length > 0 ? (
-                <Table>
-                <TableHeader>
-                    <TableRow>
-                    <TableHead>Medicine</TableHead>
-                    <TableHead>Pharmacy</TableHead>
-                    <TableHead className="text-right">Price</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
+                <div className="space-y-4">
                     {results.map((item, index) => (
-                    <TableRow key={index}>
-                        <TableCell className="font-medium">{item.medicine}</TableCell>
-                        <TableCell>{item.pharmacy}</TableCell>
-                        <TableCell className="text-right font-bold text-primary">{item.price}</TableCell>
-                    </TableRow>
+                        <Card key={index} className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
+                            <div className="flex items-center gap-4">
+                                <Image src={item.logoUrl} alt={`${item.pharmacy} logo`} width={80} height={32} className="object-contain" />
+                                <div>
+                                    <p className="font-semibold">{item.pharmacy}</p>
+                                    <p className="text-sm text-muted-foreground">{item.medicine}</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-6">
+                                <p className="text-lg font-bold text-primary">{item.price}</p>
+                                <Button asChild size="sm">
+                                    <a href={item.url} target="_blank" rel="noopener noreferrer">
+                                        Buy Now <ArrowRight className="ml-2 h-4 w-4" />
+                                    </a>
+                                </Button>
+                            </div>
+                        </Card>
                     ))}
-                </TableBody>
-                </Table>
+                </div>
             ) : (
                 <div className="text-center py-8 text-muted-foreground">
                     <p>Try searching for another medicine, e.g., "Aspirin".</p>
