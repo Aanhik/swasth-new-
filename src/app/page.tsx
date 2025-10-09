@@ -86,8 +86,11 @@ export default function Home() {
       </Sidebar>
       <SidebarInset>
         <header className="flex items-center justify-between p-4 bg-card border-b sticky top-0 z-10">
-            <h1 className="text-xl md:text-2xl font-bold font-headline text-primary">{viewTitles[activeView]}</h1>
-            <SidebarTrigger className="md:hidden" />
+            <div className="flex items-center gap-2">
+                <SidebarTrigger className="md:hidden" />
+                <h1 className="text-xl md:text-2xl font-bold font-headline text-primary">{viewTitles[activeView]}</h1>
+            </div>
+            <SidebarTrigger className="hidden md:flex" />
         </header>
         <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
             {renderView()}
