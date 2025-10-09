@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, Upload } from 'lucide-react';
+import { LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, Upload, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import Dashboard from '@/components/swasth/dashboard';
@@ -111,6 +111,11 @@ export default function Home() {
         <header className="flex items-center justify-between p-4 bg-card border-b sticky top-0 z-10">
             <div className="flex items-center gap-2">
                 <SidebarTrigger />
+                {activeView !== 'dashboard' && (
+                    <Button variant="ghost" size="icon" onClick={() => setActiveView('dashboard')}>
+                        <ArrowLeft />
+                    </Button>
+                )}
                 <h1 className="text-xl md:text-2xl font-bold font-headline text-primary">{viewTitles[activeView]}</h1>
             </div>
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => setActiveView('dashboard')}>
