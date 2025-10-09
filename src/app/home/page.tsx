@@ -1,10 +1,19 @@
 
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, Upload, ArrowLeft } from 'lucide-react';
+import { LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, Upload, ArrowLeft, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter
+} from "@/components/ui/dialog";
 import Link from 'next/link';
 
 import Dashboard from '@/components/swasth/dashboard';
@@ -50,8 +59,19 @@ const Logo = () => (
 );
 
 
-export default function Home() {
+function HomeContent() {
   const [activeView, setActiveView] = useState<View>("dashboard");
+  const [showGuestPopup, setShowGuestPopup] = useState(false);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get('guest') === 'true') {
+      const timer = setTimeout(() => {
+        setShowGuestPopup(true);
+      }, 1000); // Delay pop-up by 1 second
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams]);
 
   const renderView = () => {
     switch (activeView) {
@@ -120,17 +140,47 @@ export default function Home() {
                 )}
                 <h1 className="text-xl md:text-2xl font-bold font-headline text-primary">{viewTitles[activeView]}</h1>
             </div>
-            <Link href="/home" className="flex items-center gap-2 cursor-pointer">
+            <div className="flex items-center gap-2 cursor-pointer" onClick={() => setActiveView('dashboard')}>
                <h2 className="text-xl font-bold font-headline">SWASTH</h2>
                 <Button variant="ghost" size="icon" className="shrink-0 hover:bg-secondary/50">
                    <Logo />
                </Button>
-            </Link>
+            </div>
         </header>
         <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
             {renderView()}
         </main>
       </SidebarInset>
+      <Dialog open={showGuestPopup} onOpenChange={setShowGuestPopup}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <UserPlus />
+              Join SWASTH!
+            </DialogTitle>
+            <DialogDescription>
+              Create an account or log in to save your health data and get a personalized experience.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-col gap-2 sm:flex-row">
+            <Button asChild className="w-full">
+              <Link href="/login" onClick={() => setShowGuestPopup(false)}>Login</Link>
+            </Button>
+            <Button asChild variant="outline" className="w-full">
+              <Link href="/signup" onClick={() => setShowGuestPopup(false)}>Sign Up</Link>
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </SidebarProvider>
   );
+}
+
+
+export default function Home() {
+    return (
+        <React.Suspense fallback={<div>Loading...</div>}>
+            <HomeContent />
+        </React.Suspense>
+    )
 }

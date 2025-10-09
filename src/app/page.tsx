@@ -52,7 +52,7 @@ export default function LandingPage() {
             </Button>
           </div>
            <Button asChild variant="link" className="w-full">
-              <Link href="/home">Continue as Guest &rarr;</Link>
+              <Link href="/home?guest=true">Continue as Guest &rarr;</Link>
             </Button>
         </CardContent>
       </Card>
