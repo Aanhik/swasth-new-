@@ -89,10 +89,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView }) => {
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">{feature.description}</p>
-              <Button variant="link" className="p-0 mt-4 text-primary group-hover:underline">
-                Go to {feature.title} <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <div className="h-6"></div>
             </CardContent>
           </Card>
         ))}
