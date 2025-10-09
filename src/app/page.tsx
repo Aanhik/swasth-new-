@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
+import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { Medal, LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -24,16 +24,6 @@ const viewTitles: Record<View, string> = {
     "health-tips": "Health Tips & Reminders",
     "read-prescription": "Read Prescription"
 };
-
-function PageHeader({ title }: { title: string }) {
-    const { isMobile, toggleSidebar } = useSidebar();
-    return (
-        <header className="flex items-center justify-between p-4 bg-card border-b sticky top-0 z-10">
-            <h1 className="text-xl md:text-2xl font-bold font-headline text-primary">{title}</h1>
-            {isMobile && <SidebarTrigger onClick={toggleSidebar} />}
-        </header>
-    );
-}
 
 export default function Home() {
   const [activeView, setActiveView] = useState<View>("dashboard");
@@ -73,10 +63,10 @@ export default function Home() {
       <Sidebar>
         <SidebarHeader>
           <div className="flex items-center gap-2 p-2">
-            <Button variant="ghost" size="icon" className="shrink-0 text-primary hover:bg-secondary/50">
+             <Button variant="ghost" size="icon" className="shrink-0 text-primary hover:bg-secondary/50">
                 <Medal className="w-7 h-7" />
             </Button>
-            <h2 className="text-xl font-bold font-headline">SWASTH</h2>
+            <h2 className="text-xl font-bold font-headline group-data-[collapsible=icon]:hidden">SWASTH</h2>
           </div>
         </SidebarHeader>
         <SidebarMenu>
@@ -95,7 +85,10 @@ export default function Home() {
         </SidebarMenu>
       </Sidebar>
       <SidebarInset>
-        <PageHeader title={viewTitles[activeView]} />
+        <header className="flex items-center justify-between p-4 bg-card border-b sticky top-0 z-10">
+            <h1 className="text-xl md:text-2xl font-bold font-headline text-primary">{viewTitles[activeView]}</h1>
+            <SidebarTrigger className="md:hidden" />
+        </header>
         <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
             {renderView()}
         </main>
