@@ -82,24 +82,7 @@ export default function Home() {
 
   return (
     <SidebarProvider>
-      <SidebarInset>
-        <header className="flex items-center justify-between p-4 bg-card border-b sticky top-0 z-10">
-            <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" className="shrink-0 hover:bg-secondary/50">
-                   <Logo />
-               </Button>
-               <h2 className="text-xl font-bold font-headline">SWASTH</h2>
-            </div>
-            <div className="flex items-center gap-2">
-                <h1 className="text-xl md:text-2xl font-bold font-headline text-primary">{viewTitles[activeView]}</h1>
-                <SidebarTrigger />
-            </div>
-        </header>
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
-            {renderView()}
-        </main>
-      </SidebarInset>
-      <Sidebar side="right">
+      <Sidebar side="left">
         <SidebarHeader>
           <div className="flex items-center gap-2 p-2">
              <Button variant="ghost" size="icon" className="shrink-0 hover:bg-secondary/50">
@@ -123,6 +106,23 @@ export default function Home() {
           ))}
         </SidebarMenu>
       </Sidebar>
+      <SidebarInset>
+        <header className="flex items-center justify-between p-4 bg-card border-b sticky top-0 z-10">
+            <div className="flex items-center gap-2">
+                <SidebarTrigger />
+                <h1 className="text-xl md:text-2xl font-bold font-headline text-primary">{viewTitles[activeView]}</h1>
+            </div>
+            <div className="flex items-center gap-2">
+               <h2 className="text-xl font-bold font-headline">SWASTH</h2>
+                <Button variant="ghost" size="icon" className="shrink-0 hover:bg-secondary/50">
+                   <Logo />
+               </Button>
+            </div>
+        </header>
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+            {renderView()}
+        </main>
+      </SidebarInset>
     </SidebarProvider>
   );
 }
