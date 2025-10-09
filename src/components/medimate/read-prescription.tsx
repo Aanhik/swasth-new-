@@ -1,84 +1,54 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, Camera, ScanLine, X, Sparkles } from 'lucide-react';
+import { Loader2, Upload, ScanLine, X, Sparkles } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { extractPrescriptionText } from '@/ai/flows/extract-prescription-text';
 import Image from 'next/image';
 
 export default function ReadPrescription() {
   const { toast } = useToast();
-  const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
-  const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [extractedText, setExtractedText] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const getCameraPermission = async () => {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        setError("Camera not supported on this device.");
-        setHasCameraPermission(false);
-        return;
-      }
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-        setHasCameraPermission(true);
-
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (error) {
-        console.error('Error accessing camera:', error);
-        setHasCameraPermission(false);
-        setError('Camera access denied. Please enable camera permissions in your browser settings.');
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.type.startsWith('image/')) {
+        setSelectedFile(file);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewUrl(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+        setError(null);
+      } else {
+        setError('Invalid file type. Please upload an image.');
         toast({
           variant: 'destructive',
-          title: 'Camera Access Denied',
-          description: 'Please enable camera permissions in your browser settings.',
+          title: 'Invalid File Type',
+          description: 'Please upload an image file (e.g., JPG, PNG).',
         });
-      }
-    };
-
-    getCameraPermission();
-
-    return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject as MediaStream;
-        stream.getTracks().forEach(track => track.stop());
-      }
-    };
-  }, [toast]);
-
-  const takePicture = () => {
-    if (videoRef.current && canvasRef.current) {
-      const video = videoRef.current;
-      const canvas = canvasRef.current;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const context = canvas.getContext('2d');
-      if (context) {
-        context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-        const dataUri = canvas.toDataURL('image/jpeg');
-        setCapturedImage(dataUri);
       }
     }
   };
 
   const handleAnalyze = async () => {
-    if (!capturedImage) return;
+    if (!previewUrl) return;
 
     setIsLoading(true);
     setError(null);
     setExtractedText(null);
 
     try {
-      const result = await extractPrescriptionText({ imageDataUri: capturedImage });
+      const result = await extractPrescriptionText({ imageDataUri: previewUrl });
       setExtractedText(result.extractedText);
     } catch (e) {
       setError('An error occurred while analyzing the prescription. Please try again.');
@@ -89,43 +59,27 @@ export default function ReadPrescription() {
   };
 
   const reset = () => {
-    setCapturedImage(null);
+    setSelectedFile(null);
+    setPreviewUrl(null);
     setExtractedText(null);
     setError(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
   
   const renderContent = () => {
-    if (hasCameraPermission === null) {
-        return (
-            <div className="flex items-center justify-center p-8">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="ml-4 text-muted-foreground">Requesting camera access...</p>
-            </div>
-        );
-    }
-    
-    if (hasCameraPermission === false) {
-        return (
-            <Alert variant="destructive">
-              <AlertTitle>Camera Access Required</AlertTitle>
-              <AlertDescription>
-                {error || "Please allow camera access to use this feature."}
-              </AlertDescription>
-            </Alert>
-        );
-    }
-
-    if (capturedImage) {
+    if (previewUrl) {
       return (
         <div className="space-y-4">
           <Card>
             <CardContent className="p-4">
-              <Image src={capturedImage} alt="Captured prescription" width={800} height={600} className="rounded-md" />
+              <Image src={previewUrl} alt="Uploaded prescription" width={800} height={600} className="rounded-md object-contain max-h-[400px]" />
             </CardContent>
           </Card>
           <div className="flex gap-4">
             <Button onClick={reset} variant="outline" className="w-full">
-              <X className="mr-2" /> Retake
+              <X className="mr-2" /> Clear
             </Button>
             <Button onClick={handleAnalyze} disabled={isLoading} className="w-full">
               {isLoading ? (
@@ -141,15 +95,21 @@ export default function ReadPrescription() {
 
     return (
       <div className="space-y-4">
-        <div className="relative aspect-video w-full overflow-hidden rounded-md border bg-muted">
-          <video ref={videoRef} className="h-full w-full object-cover" autoPlay playsInline muted />
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <div className="h-3/4 w-3/4 rounded-lg border-4 border-dashed border-white/50" />
-          </div>
+        <div 
+          className="relative flex flex-col items-center justify-center w-full p-8 border-2 border-dashed rounded-md cursor-pointer hover:bg-muted/50"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <Upload className="w-12 h-12 text-muted-foreground" />
+          <p className="mt-4 text-center text-muted-foreground">Click to upload or drag and drop</p>
+          <p className="text-xs text-muted-foreground">PNG, JPG, or GIF</p>
+          <input
+            ref={fileInputRef}
+            type="file"
+            className="hidden"
+            accept="image/*"
+            onChange={handleFileChange}
+          />
         </div>
-        <Button onClick={takePicture} className="w-full">
-          <Camera className="mr-2" /> Capture Prescription
-        </Button>
       </div>
     );
   };
@@ -159,11 +119,10 @@ export default function ReadPrescription() {
         <Card>
             <CardHeader>
                 <CardTitle>Read Prescription</CardTitle>
-                <CardDescription>Use your camera to scan your prescription. The AI will extract the text for you.</CardDescription>
+                <CardDescription>Upload a picture of your prescription. The AI will extract the text for you.</CardDescription>
             </CardHeader>
             <CardContent>
                 {renderContent()}
-                <canvas ref={canvasRef} className="hidden" />
             </CardContent>
         </Card>
 

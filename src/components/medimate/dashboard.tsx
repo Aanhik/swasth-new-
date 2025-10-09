@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, ArrowRight, FileScan } from "lucide-react";
+import { Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, ArrowRight, Upload } from "lucide-react";
 import { Button } from '@/components/ui/button';
 
 type View = "dashboard" | "symptom-analyzer" | "medical-advice" | "appointment-booking" | "price-comparison" | "health-tips" | "read-prescription";
@@ -55,8 +55,8 @@ const featureCards = [
   {
     view: "read-prescription" as View,
     title: "Read Prescription",
-    description: "Use your camera to scan and digitize your prescription.",
-    icon: FileScan,
+    description: "Upload a picture of your prescription to digitize it.",
+    icon: Upload,
     color: "text-indigo-500",
     bgColor: "bg-indigo-50",
   },

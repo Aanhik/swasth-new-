@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
-import { Medal, LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, FileScan } from 'lucide-react';
+import { Medal, LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import Dashboard from '@/components/medimate/dashboard';
@@ -65,7 +65,7 @@ export default function Home() {
     { id: 'appointment-booking', label: 'Book Appointment', icon: CalendarCheck },
     { id: 'price-comparison', label: 'Price Comparison', icon: Scale },
     { id: 'health-tips', label: 'Health Tips', icon: Lightbulb },
-    { id: 'read-prescription', label: 'Read Prescription', icon: FileScan },
+    { id: 'read-prescription', label: 'Read Prescription', icon: Upload },
   ] as const;
 
   return (
