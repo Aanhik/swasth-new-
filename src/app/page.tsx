@@ -102,7 +102,7 @@ const InteractiveWelcomeText = () => {
     return (
       <h1 ref={containerRef} className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-primary">
         {text.split('').map((char, index) => (
-          <span key={index} className="inline-block transition-transform duration-100 ease-out" style={{ whiteSpace: char === ' ' ? 'pre' : 'normal'}}>
+          <span key={index} className="inline-block transition-transform duration-100 ease-out" style={{ whiteSpace: char === ' ' ? 'pre' : 'normal', marginRight: '0.2rem'}}>
             {char}
           </span>
         ))}
