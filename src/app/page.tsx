@@ -112,6 +112,59 @@ const InteractiveWelcomeText = () => {
     );
 };
 
+const MagneticWrapper: React.FC<{ children: React.ReactElement }> = ({ children }) => {
+    const ref = React.useRef<HTMLDivElement>(null);
+    const [position, setPosition] = React.useState({ x: 0, y: 0 });
+
+    const handleMouseMove = (e: MouseEvent) => {
+        if (!ref.current) return;
+        const { clientX, clientY } = e;
+        const { width, height, left, top } = ref.current.getBoundingClientRect();
+        const centerX = left + width / 2;
+        const centerY = top + height / 2;
+
+        const deltaX = clientX - centerX;
+        const deltaY = clientY - centerY;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        const maxDistance = 150;
+
+        if (distance < maxDistance) {
+            const moveX = deltaX * 0.4;
+            const moveY = deltaY * 0.4;
+            setPosition({ x: moveX, y: moveY });
+        } else {
+            setPosition({ x: 0, y: 0 });
+        }
+    };
+    
+    const handleMouseLeave = () => {
+        setPosition({ x: 0, y: 0 });
+    };
+
+    React.useEffect(() => {
+        const parent = ref.current?.parentElement;
+        if (!parent) return;
+
+        parent.addEventListener('mousemove', handleMouseMove);
+        parent.addEventListener('mouseleave', handleMouseLeave);
+
+        return () => {
+            parent.removeEventListener('mousemove', handleMouseMove);
+            parent.removeEventListener('mouseleave', handleMouseLeave);
+        };
+    }, [ref]);
+
+    return React.cloneElement(children, {
+        ref,
+        style: {
+            transform: `translate(${position.x}px, ${position.y}px)`,
+            transition: 'transform 0.1s ease-out',
+            willChange: 'transform'
+        }
+    });
+};
+
 
 export default function LandingPage() {
   return (
@@ -128,9 +181,11 @@ export default function LandingPage() {
                 Your friendly AI health assistant. Take control of your health with powerful tools and personalized insights, all in one place.
               </p>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button asChild size="lg">
-                  <Link href="/login">Login</Link>
-                </Button>
+                <MagneticWrapper>
+                    <Button asChild size="lg">
+                      <Link href="/login">Login</Link>
+                    </Button>
+                </MagneticWrapper>
                 <Button asChild variant="outline" size="lg">
                   <Link href="/signup">Sign Up</Link>
                 </Button>
@@ -142,7 +197,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="w-full py-12 md:py-24 bg-muted relative overflow-hidden">
+        <section className="w-full py-12 md:py-24 bg-card/50 relative overflow-hidden">
             <SphereBackground sphereColor="hsl(var(--accent-hsl))" />
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
