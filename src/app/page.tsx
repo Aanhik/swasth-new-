@@ -154,7 +154,7 @@ export default function LandingPage() {
                 </div>
                 <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:max-w-none lg:grid-cols-4 mt-12">
                     {features.map((feature, index) => (
-                        <div key={index} className="grid gap-2 p-4 rounded-lg hover:bg-card transition-all bg-background/50 backdrop-blur-sm">
+                        <div key={index} className="grid gap-2 p-4 rounded-lg hover:bg-card transition-all bg-background/50 backdrop-blur-sm animate-float" style={{ animationDelay: `${index * 200}ms` }}>
                             {feature.icon}
                             <h3 className="text-lg font-bold">{feature.title}</h3>
                             <p className="text-sm text-muted-foreground">{feature.description}</p>
