@@ -58,37 +58,27 @@ export default function LandingPage() {
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
           <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-16">
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="flex items-center gap-4">
-                    <Logo />
-                    <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-primary animate-text-pressure">
-                      Welcome to SWASTH
-                    </h1>
-                </div>
-                <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  Your friendly AI health assistant. Take control of your health with powerful tools and personalized insights, all in one place.
-                </p>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button asChild size="lg">
-                    <Link href="/login">Login</Link>
-                  </Button>
-                  <Button asChild variant="outline" size="lg">
-                    <Link href="/signup">Sign Up</Link>
-                  </Button>
-                </div>
-                 <Button asChild variant="link" className="px-0 justify-start">
-                    <Link href="/home?guest=true">Continue as Guest &rarr;</Link>
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="flex items-center gap-4">
+                  <Logo />
+                  <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-primary animate-text-pressure">
+                    Welcome to SWASTH
+                  </h1>
+              </div>
+              <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                Your friendly AI health assistant. Take control of your health with powerful tools and personalized insights, all in one place.
+              </p>
+              <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                <Button asChild size="lg">
+                  <Link href="/login">Login</Link>
+                </Button>
+                <Button asChild variant="outline" size="lg">
+                  <Link href="/signup">Sign Up</Link>
                 </Button>
               </div>
-              <Image
-                src="https://picsum.photos/seed/health-tech/1200/800"
-                width="1200"
-                height="800"
-                alt="Hero"
-                data-ai-hint="health technology"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square animate-in fade-in-50 zoom-in-95"
-              />
+               <Button asChild variant="link" className="px-0">
+                  <Link href="/home?guest=true">Continue as Guest &rarr;</Link>
+              </Button>
             </div>
           </div>
         </section>
