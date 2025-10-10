@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
-import { MagneticLines } from '@/components/ui/magnetic-lines';
+import { SphereBackground } from '@/components/ui/sphere-background';
 
 const Logo = () => (
   <svg
@@ -142,7 +142,7 @@ export default function LandingPage() {
         </section>
 
         <section className="w-full py-12 md:py-24 bg-muted relative overflow-hidden">
-            <MagneticLines />
+            <SphereBackground />
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="space-y-2">
