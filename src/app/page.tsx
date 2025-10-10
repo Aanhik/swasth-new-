@@ -156,7 +156,7 @@ export default function LandingPage() {
                 <div className="mt-12">
                     <LogoLoop>
                       {[...features, ...features].map((feature, index) => (
-                          <div key={index} className="grid gap-2 p-4 rounded-lg hover:bg-card transition-all bg-background/50 backdrop-blur-sm w-64 flex-shrink-0">
+                          <div key={index} className="grid gap-2 p-4 rounded-lg hover:bg-card transition-all bg-card/80 backdrop-blur-sm w-64 flex-shrink-0">
                               {feature.icon}
                               <h3 className="text-lg font-bold">{feature.title}</h3>
                               <p className="text-sm text-muted-foreground">{feature.description}</p>
