@@ -6,7 +6,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
 import { SphereBackground } from '@/components/ui/sphere-background';
-import LogoLoop from '@/components/ui/logo-loop';
+import { LogoLoop } from '@/components/ui/logo-loop';
 
 const Logo = () => (
   <svg
@@ -127,7 +127,7 @@ const MagneticWrapper: React.FC<{ children: React.ReactElement }> = ({ children 
         const deltaY = clientY - centerY;
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        const maxDistance = 150;
+        const maxDistance = 200;
 
         if (distance < maxDistance) {
             const moveX = deltaX * 0.4;
@@ -197,7 +197,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="w-full py-12 md:py-24 bg-card/50 relative overflow-hidden">
+        <section className="w-full py-12 md:py-24 bg-card/80 relative overflow-hidden">
             <SphereBackground sphereColor="hsl(var(--accent-hsl))" />
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
