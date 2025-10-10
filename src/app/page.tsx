@@ -2,11 +2,13 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Image from 'next/image';
+import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
 
 const Logo = () => (
   <svg
-    width="80"
-    height="80"
+    width="60"
+    height="60"
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -26,36 +28,97 @@ const Logo = () => (
   </svg>
 );
 
+const features = [
+    {
+      icon: <Stethoscope className="w-8 h-8 text-primary" />,
+      title: "Symptom Analysis",
+      description: "Get instant insights into your health symptoms."
+    },
+    {
+      icon: <HeartPulse className="w-8 h-8 text-primary" />,
+      title: "AI Medical Advice",
+      description: "Ask health questions and get AI-powered answers."
+    },
+    {
+      icon: <Scale className="w-8 h-8 text-primary" />,
+      title: "Price Comparison",
+      description: "Find the best prices for your medicines."
+    },
+    {
+      icon: <Lightbulb className="w-8 h-8 text-primary" />,
+      title: "Health Tips",
+      description: "Daily advice to help you live a healthier life."
+    }
+];
+
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
-      <Card className="w-full max-w-md text-center p-8 shadow-2xl animate-in fade-in-50 zoom-in-95">
-        <CardHeader>
-          <div className="flex justify-center">
-            <Logo />
+    <div className="flex flex-col min-h-screen bg-background">
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+          <div className="container px-4 md:px-6">
+            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+              <div className="flex flex-col justify-center space-y-4">
+                <div className="flex items-center gap-4">
+                    <Logo />
+                    <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-primary">
+                      Welcome to SWASTH
+                    </h1>
+                </div>
+                <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                  Your friendly AI health assistant. Take control of your health with powerful tools and personalized insights, all in one place.
+                </p>
+                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                  <Button asChild size="lg">
+                    <Link href="/login">Login</Link>
+                  </Button>
+                  <Button asChild variant="outline" size="lg">
+                    <Link href="/signup">Sign Up</Link>
+                  </Button>
+                </div>
+                 <Button asChild variant="link" className="px-0 justify-start">
+                    <Link href="/home?guest=true">Continue as Guest &rarr;</Link>
+                </Button>
+              </div>
+              <Image
+                src="https://picsum.photos/seed/health-tech/1200/800"
+                width="1200"
+                height="800"
+                alt="Hero"
+                data-ai-hint="health technology"
+                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square animate-in fade-in-50 zoom-in-95"
+              />
+            </div>
           </div>
-          <CardTitle className="text-4xl font-bold font-headline text-primary">
-            Welcome to SWASTH
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <p className="text-lg text-muted-foreground">
-            Your friendly AI health assistant.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild className="w-full">
-              <Link href="/login">Login</Link>
-            </Button>
-            <Button asChild variant="outline" className="w-full">
-              <Link href="/signup">Sign Up</Link>
-            </Button>
-          </div>
-           <Button asChild variant="link" className="w-full">
-              <Link href="/home?guest=true">Continue as Guest &rarr;</Link>
-            </Button>
-        </CardContent>
-      </Card>
+        </section>
+
+        <section className="w-full py-12 md:py-24 bg-muted/50">
+            <div className="container px-4 md:px-6">
+                <div className="flex flex-col items-center justify-center space-y-4 text-center">
+                    <div className="space-y-2">
+                        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Features to Empower Your Health</h2>
+                        <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                            SWASTH provides a suite of tools to help you stay informed and proactive about your well-being.
+                        </p>
+                    </div>
+                </div>
+                <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:max-w-none lg:grid-cols-4 mt-12">
+                    {features.map((feature, index) => (
+                        <div key={index} className="grid gap-2 p-4 rounded-lg hover:bg-card transition-all">
+                            {feature.icon}
+                            <h3 className="text-lg font-bold">{feature.title}</h3>
+                            <p className="text-sm text-muted-foreground">{feature.description}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+      </main>
+      <footer className="flex items-center justify-center py-6 border-t">
+          <p className="text-xs text-muted-foreground">&copy; {new Date().getFullYear()} SWASTH. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
