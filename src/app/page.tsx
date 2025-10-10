@@ -6,6 +6,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
 import { SphereBackground } from '@/components/ui/sphere-background';
+import LogoLoop from '@/components/ui/logo-loop';
 
 const Logo = () => (
   <svg
@@ -152,14 +153,16 @@ export default function LandingPage() {
                         </p>
                     </div>
                 </div>
-                <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:max-w-none lg:grid-cols-4 mt-12">
-                    {features.map((feature, index) => (
-                        <div key={index} className="grid gap-2 p-4 rounded-lg hover:bg-card transition-all bg-background/50 backdrop-blur-sm animate-pulse-loop" style={{ animationDelay: `${index * 200}ms` }}>
-                            {feature.icon}
-                            <h3 className="text-lg font-bold">{feature.title}</h3>
-                            <p className="text-sm text-muted-foreground">{feature.description}</p>
-                        </div>
-                    ))}
+                <div className="mt-12">
+                    <LogoLoop>
+                      {[...features, ...features].map((feature, index) => (
+                          <div key={index} className="grid gap-2 p-4 rounded-lg hover:bg-card transition-all bg-background/50 backdrop-blur-sm w-64 flex-shrink-0">
+                              {feature.icon}
+                              <h3 className="text-lg font-bold">{feature.title}</h3>
+                              <p className="text-sm text-muted-foreground">{feature.description}</p>
+                          </div>
+                      ))}
+                    </LogoLoop>
                 </div>
             </div>
         </section>
