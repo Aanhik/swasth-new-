@@ -5,6 +5,7 @@ import Link from 'next/link';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
+import { MagneticLines } from '@/components/ui/magnetic-lines';
 
 const Logo = () => (
   <svg
@@ -140,7 +141,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="w-full py-12 md:py-24 bg-muted">
+        <section className="w-full py-12 md:py-24 bg-muted/50 relative overflow-hidden">
+            <MagneticLines />
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="space-y-2">
@@ -152,7 +154,7 @@ export default function LandingPage() {
                 </div>
                 <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:max-w-none lg:grid-cols-4 mt-12">
                     {features.map((feature, index) => (
-                        <div key={index} className="grid gap-2 p-4 rounded-lg hover:bg-card transition-all">
+                        <div key={index} className="grid gap-2 p-4 rounded-lg hover:bg-card transition-all bg-background/50 backdrop-blur-sm">
                             {feature.icon}
                             <h3 className="text-lg font-bold">{feature.title}</h3>
                             <p className="text-sm text-muted-foreground">{feature.description}</p>
