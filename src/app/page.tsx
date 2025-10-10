@@ -1,8 +1,9 @@
 
+"use client";
+
 import Link from 'next/link';
+import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import Image from 'next/image';
 import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
 
 const Logo = () => (
@@ -51,6 +52,64 @@ const features = [
     }
 ];
 
+const InteractiveWelcomeText = () => {
+    const text = "Welcome to SWASTH";
+    const containerRef = React.useRef<HTMLHeadingElement>(null);
+  
+    React.useEffect(() => {
+      const container = containerRef.current;
+      if (!container) return;
+  
+      const handleMouseMove = (e: MouseEvent) => {
+        const letters = Array.from(container.querySelectorAll('span'));
+        for (const letter of letters) {
+          const rect = letter.getBoundingClientRect();
+          const dx = e.clientX - (rect.left + rect.width / 2);
+          const dy = e.clientY - (rect.top + rect.height / 2);
+          const distance = Math.sqrt(dx * dx + dy * dy);
+  
+          const maxDist = 150;
+          const scale = Math.max(0, 1 - distance / maxDist);
+          const fontWeight = 400 + 500 * scale;
+  
+          letter.style.transform = `scale(${1 + 0.5 * scale})`;
+          letter.style.fontWeight = `${fontWeight}`;
+        }
+      };
+  
+      const handleMouseLeave = () => {
+        const letters = Array.from(container.querySelectorAll('span'));
+        for (const letter of letters) {
+          letter.style.transform = 'scale(1)';
+          letter.style.fontWeight = '400';
+        }
+      }
+      
+      const parent = container.parentElement;
+      if (parent) {
+        parent.addEventListener('mousemove', handleMouseMove);
+        parent.addEventListener('mouseleave', handleMouseLeave)
+      }
+  
+      return () => {
+        if(parent) {
+            parent.removeEventListener('mousemove', handleMouseMove);
+            parent.removeEventListener('mouseleave', handleMouseLeave);
+        }
+      };
+    }, []);
+  
+    return (
+      <h1 ref={containerRef} className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-primary">
+        {text.split('').map((char, index) => (
+          <span key={index} className="inline-block transition-transform duration-100 ease-out" style={{ whiteSpace: char === ' ' ? 'pre' : 'normal'}}>
+            {char}
+          </span>
+        ))}
+      </h1>
+    );
+};
+
 
 export default function LandingPage() {
   return (
@@ -61,9 +120,7 @@ export default function LandingPage() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="flex items-center gap-4">
                   <Logo />
-                  <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-primary animate-text-pressure">
-                    Welcome to SWASTH
-                  </h1>
+                  <InteractiveWelcomeText />
               </div>
               <p className="max-w-[600px] text-muted-foreground md:text-xl">
                 Your friendly AI health assistant. Take control of your health with powerful tools and personalized insights, all in one place.
