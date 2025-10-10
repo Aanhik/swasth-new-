@@ -1,10 +1,10 @@
 
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, Upload, ArrowLeft, UserPlus } from 'lucide-react';
+import { LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, Upload, ArrowLeft, UserPlus, Bot, X, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -14,6 +14,15 @@ import {
   DialogTitle,
   DialogFooter
 } from "@/components/ui/dialog";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { ScrollArea } from "@/components/ui/scroll-area"
+
 import Link from 'next/link';
 
 import Dashboard from '@/components/swasth/dashboard';
@@ -59,9 +68,81 @@ const Logo = () => (
 );
 
 
+const AiAssistant = () => {
+    const [messages, setMessages] = useState<{ sender: 'user' | 'bot'; text: string }[]>([]);
+    const [inputValue, setInputValue] = useState('');
+    const scrollAreaRef = useRef<HTMLDivElement>(null);
+  
+    const handleSendMessage = () => {
+      if (inputValue.trim()) {
+        setMessages([...messages, { sender: 'user', text: inputValue }]);
+        // Mock bot response
+        setTimeout(() => {
+          setMessages(prev => [...prev, { sender: 'bot', text: `I am a friendly AI assistant. How can I help you with your health today?` }]);
+        }, 500);
+        setInputValue('');
+      }
+    };
+  
+    useEffect(() => {
+      // Auto-scroll to bottom
+      if (scrollAreaRef.current) {
+        const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+        if (viewport) {
+            viewport.scrollTop = viewport.scrollHeight;
+        }
+      }
+    }, [messages]);
+  
+    return (
+        <Card className="w-80 h-96 flex flex-col shadow-2xl animate-in fade-in-50 zoom-in-95">
+            <CardHeader className="flex flex-row items-center justify-between p-3 border-b">
+                <CardTitle className="text-lg flex items-center gap-2 font-headline">
+                <Bot className="text-primary" />
+                AI Assistant
+                </CardTitle>
+            </CardHeader>
+            <CardContent className="flex-1 p-0">
+                <ScrollArea className="h-full" ref={scrollAreaRef}>
+                <div className="p-4 space-y-4">
+                    {messages.map((msg, index) => (
+                    <div key={index} className={`flex items-end gap-2 ${msg.sender === 'user' ? 'justify-end' : ''}`}>
+                        {msg.sender === 'bot' && <Bot className="w-6 h-6 text-primary shrink-0" />}
+                        <div className={`rounded-lg px-3 py-2 text-sm ${msg.sender === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+                        {msg.text}
+                        </div>
+                    </div>
+                    ))}
+                     {messages.length === 0 && (
+                        <div className="text-center text-sm text-muted-foreground p-4">
+                            Hi there! Ask me anything about your health or how to use the app.
+                        </div>
+                    )}
+                </div>
+                </ScrollArea>
+            </CardContent>
+            <div className="p-2 border-t">
+                <div className="flex items-center gap-2">
+                <Input
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                    placeholder="Ask something..."
+                    className="flex-1"
+                />
+                <Button onClick={handleSendMessage} size="icon">
+                    <Send className="w-4 h-4" />
+                </Button>
+                </div>
+            </div>
+        </Card>
+    )
+}
+
 function HomeContent() {
   const [activeView, setActiveView] = useState<View>("dashboard");
   const [showGuestPopup, setShowGuestPopup] = useState(false);
+  const [showAiAssistant, setShowAiAssistant] = useState(false);
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -172,6 +253,29 @@ function HomeContent() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <div className="fixed bottom-4 left-4 z-50">
+        {showAiAssistant ? (
+            <div className="relative">
+                <AiAssistant />
+                <Button
+                    variant="destructive"
+                    size="icon"
+                    className="absolute -top-4 -right-4 rounded-full h-8 w-8"
+                    onClick={() => setShowAiAssistant(false)}
+                    >
+                    <X className="h-4 w-4" />
+                </Button>
+            </div>
+        ) : (
+          <Button
+            size="lg"
+            className="rounded-full h-14 w-14 shadow-lg"
+            onClick={() => setShowAiAssistant(true)}
+          >
+            <Bot className="h-7 w-7" />
+          </Button>
+        )}
+      </div>
     </SidebarProvider>
   );
 }
