@@ -62,7 +62,7 @@ export default function LandingPage() {
               <div className="flex flex-col justify-center space-y-4">
                 <div className="flex items-center gap-4">
                     <Logo />
-                    <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-primary">
+                    <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-primary animate-text-pressure">
                       Welcome to SWASTH
                     </h1>
                 </div>
