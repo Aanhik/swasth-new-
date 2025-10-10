@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useRef, useEffect } from 'react';
@@ -6,47 +5,11 @@ import { cn } from '@/lib/utils';
 
 interface SphereBackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
   sphereColor?: string;
-  count?: number;
 }
 
-const SphereBackground: React.FC<SphereBackgroundProps> = ({ className, sphereColor = 'hsl(83, 40%, 80%)', count=50, ...props }) => {
+const SphereBackground: React.FC<SphereBackgroundProps> = ({ className, sphereColor = 'hsl(83, 40%, 80%)', ...props }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  class Sphere {
-    x: number;
-    y: number;
-    size: number;
-    dx: number;
-    dy: number;
-
-    constructor(private canvas: HTMLCanvasElement, private color: string) {
-      this.x = Math.random() * this.canvas.width;
-      this.y = Math.random() * this.canvas.height;
-      this.size = Math.random() * 2 + 1;
-      this.dx = (Math.random() - 0.5) * 0.5;
-      this.dy = (Math.random() - 0.5) * 0.5;
-    }
-
-    draw(ctx: CanvasRenderingContext2D) {
-      ctx.fillStyle = this.color;
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.closePath();
-      ctx.fill();
-    }
-
-    update() {
-        if (this.x > this.canvas.width || this.x < 0) {
-            this.dx = -this.dx;
-        }
-        if (this.y > this.canvas.height || this.y < 0) {
-            this.dy = -this.dy;
-        }
-
-        this.x += this.dx;
-        this.y += this.dy;
-    }
-  }
+  const animationFrameId = useRef<number>();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -55,25 +18,58 @@ const SphereBackground: React.FC<SphereBackgroundProps> = ({ className, sphereCo
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
+    class Sphere {
+        x: number;
+        y: number;
+        size: number;
+        dx: number;
+        dy: number;
+    
+        constructor(private canvas: HTMLCanvasElement, private color: string) {
+          this.x = Math.random() * this.canvas.width;
+          this.y = Math.random() * this.canvas.height;
+          this.size = Math.random() * 2 + 1;
+          this.dx = (Math.random() - 0.5) * 0.5;
+          this.dy = (Math.random() - 0.5) * 0.5;
+        }
+    
+        draw(ctx: CanvasRenderingContext2D) {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.fill();
+        }
+    
+        update() {
+            if (this.x > this.canvas.width || this.x < 0) {
+                this.dx = -this.dx;
+            }
+            if (this.y > this.canvas.height || this.y < 0) {
+                this.dy = -this.dy;
+            }
+    
+            this.x += this.dx;
+            this.y += this.dy;
+        }
+    }
+
+    let spheresArray: Sphere[] = [];
+
     const setCanvasSize = () => {
         if (canvas.parentElement) {
             canvas.width = canvas.parentElement.offsetWidth;
             canvas.height = canvas.parentElement.offsetHeight;
         }
     }
-    setCanvasSize();
-
-
-    let spheresArray: Sphere[] = [];
 
     const init = () => {
       spheresArray = [];
-      const numberOfSpheres = (canvas.width * canvas.height) / 8000;
+      const numberOfSpheres = (canvas.width * canvas.height) / 9000;
       for (let i = 0; i < numberOfSpheres; i++) {
         spheresArray.push(new Sphere(canvas, sphereColor));
       }
     };
-    init();
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -81,8 +77,11 @@ const SphereBackground: React.FC<SphereBackgroundProps> = ({ className, sphereCo
         spheresArray[i].draw(ctx);
         spheresArray[i].update();
       }
-      requestAnimationFrame(animate);
+      animationFrameId.current = requestAnimationFrame(animate);
     };
+    
+    setCanvasSize();
+    init();
     animate();
 
     const handleResize = () => {
@@ -94,6 +93,9 @@ const SphereBackground: React.FC<SphereBackgroundProps> = ({ className, sphereCo
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      if(animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
     };
   }, [sphereColor]);
 
