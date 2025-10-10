@@ -136,7 +136,7 @@ export default function LandingPage() {
                 </Button>
               </div>
                <Button asChild variant="link" className="px-0">
-                  <Link href="/home?guest=true">Continue as Guest &rarr;</Link>
+                  <Link href="/home?guest=true">Continue as Guest</Link>
               </Button>
             </div>
           </div>
