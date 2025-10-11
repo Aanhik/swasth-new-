@@ -17,48 +17,36 @@ const featureCards = [
     title: "Symptom Analyzer",
     description: "Get a list of possible conditions based on your symptoms.",
     icon: Stethoscope,
-    color: "text-blue-500",
-    bgColor: "bg-blue-50",
   },
   {
     view: "medical-advice" as View,
     title: "AI Medical Advice",
     description: "Ask for medical advice and get instant AI-powered suggestions.",
     icon: HeartPulse,
-    color: "text-red-500",
-    bgColor: "bg-red-50",
   },
   {
     view: "appointment-booking" as View,
     title: "Book Appointment",
     description: "Schedule your next visit with a healthcare professional easily.",
     icon: CalendarCheck,
-    color: "text-green-500",
-    bgColor: "bg-green-50",
   },
   {
     view: "price-comparison" as View,
     title: "Price Comparison",
     description: "Compare medicine prices from various online pharmacies.",
     icon: Scale,
-    color: "text-purple-500",
-    bgColor: "bg-purple-50",
   },
   {
     view: "health-tips" as View,
     title: "Health Tips",
     description: "Get daily tips and reminders to stay healthy and fit.",
     icon: Lightbulb,
-    color: "text-yellow-500",
-    bgColor: "bg-yellow-50",
   },
   {
     view: "read-prescription" as View,
     title: "Read Prescription",
     description: "Upload a picture of your prescription to digitize it.",
     icon: Upload,
-    color: "text-indigo-500",
-    bgColor: "bg-indigo-50",
   },
 ];
 
@@ -84,12 +72,15 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView }) => {
           >
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-lg font-semibold">{feature.title}</CardTitle>
-              <div className={`p-2 rounded-full ${feature.bgColor}`}>
-                <feature.icon className={`h-6 w-6 ${feature.color}`} />
+              <div className="p-3 rounded-full bg-[#E8F9E8]">
+                <feature.icon className="text-[#6CC551] w-6 h-6" />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="h-6"></div>
+              <p className="text-sm text-muted-foreground">{feature.description}</p>
+              <Button variant="link" className="p-0 mt-4 text-primary group-hover:underline">
+                Go to {feature.title} <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
             </CardContent>
           </Card>
         ))}
