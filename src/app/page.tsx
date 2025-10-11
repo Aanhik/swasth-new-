@@ -130,8 +130,8 @@ const MagneticWrapper: React.FC<{ children: React.ReactElement }> = ({ children 
         const maxDistance = 200;
 
         if (distance < maxDistance) {
-            const moveX = deltaX * 0.4;
-            const moveY = deltaY * 0.4;
+            const moveX = deltaX * 0.2;
+            const moveY = deltaY * 0.2;
             setPosition({ x: moveX, y: moveY });
         } else {
             setPosition({ x: 0, y: 0 });
