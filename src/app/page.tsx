@@ -187,9 +187,9 @@ export default function LandingPage() {
                   <Link href="/signup">Sign Up</Link>
                 </Button>
               </div>
-               <Button asChild variant="link" className="px-0">
-                  <Link href="/home?guest=true">Continue as Guest</Link>
-              </Button>
+               <Link href="/home?guest=true" className="underline text-[#6CC551] hover:text-[#4CAF50]">
+                  Continue as Guest
+               </Link>
             </div>
           </div>
         </section>
@@ -226,7 +226,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-    
-
-    
