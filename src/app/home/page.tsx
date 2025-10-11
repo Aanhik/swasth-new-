@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
 import Link from 'next/link';
+import { Player } from '@lottiefiles/react-lottie-player';
 
 import Dashboard from '@/components/swasth/dashboard';
 import SymptomAnalyzer from '@/components/swasth/symptom-analyzer';
@@ -72,6 +73,7 @@ const AiAssistant = () => {
     const [messages, setMessages] = useState<{ sender: 'user' | 'bot'; text: string }[]>([]);
     const [inputValue, setInputValue] = useState('');
     const scrollAreaRef = useRef<HTMLDivElement>(null);
+    const playerRef = useRef<Player>(null);
   
     const handleSendMessage = () => {
       if (inputValue.trim()) {
@@ -93,12 +95,22 @@ const AiAssistant = () => {
         }
       }
     }, [messages]);
+
+    const AiBotAvatar = () => (
+        <Player
+            ref={playerRef}
+            autoplay
+            loop
+            src="https://lottie.host/9c3e9a65-3c13-45a9-8438-e445347435a2/teaAovRePh.json"
+            style={{ height: '40px', width: '40px' }}
+        />
+    );
   
     return (
         <Card className="w-80 h-96 flex flex-col shadow-2xl animate-in fade-in-50 zoom-in-95">
             <CardHeader className="flex flex-row items-center justify-between p-3 border-b">
                 <CardTitle className="text-lg flex items-center gap-2 font-headline">
-                <Bot className="text-primary" />
+                <AiBotAvatar />
                 AI Assistant
                 </CardTitle>
             </CardHeader>
@@ -107,7 +119,11 @@ const AiAssistant = () => {
                 <div className="p-4 space-y-4">
                     {messages.map((msg, index) => (
                     <div key={index} className={`flex items-end gap-2 ${msg.sender === 'user' ? 'justify-end' : ''}`}>
-                        {msg.sender === 'bot' && <Bot className="w-6 h-6 text-primary shrink-0" />}
+                        {msg.sender === 'bot' && (
+                            <div className="w-8 h-8">
+                                <AiBotAvatar />
+                            </div>
+                        )}
                         <div className={`rounded-lg px-3 py-2 text-sm ${msg.sender === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
                         {msg.text}
                         </div>
