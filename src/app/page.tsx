@@ -186,11 +186,11 @@ export default function LandingPage() {
               </p>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <MagneticWrapper>
-                    <Button asChild size="lg">
+                    <Button asChild size="lg" className="hover:scale-105 hover:shadow-[0_0_15px_hsl(var(--primary))] transition-all duration-200">
                       <Link href="/login">Login</Link>
                     </Button>
                 </MagneticWrapper>
-                <Button asChild variant="outline" size="lg">
+                <Button asChild variant="outline" size="lg" className="hover:scale-105 hover:shadow-[0_0_15px_hsl(var(--primary))] transition-all duration-200">
                   <Link href="/signup">Sign Up</Link>
                 </Button>
               </div>
@@ -233,3 +233,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
