@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -71,7 +72,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView }) => {
             onClick={() => setActiveView(feature.view)}
           >
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-lg font-semibold">{feature.title}</CardTitle>
+              <CardTitle className="text-lg font-semibold text-foreground">{feature.title}</CardTitle>
               <div className="p-3 rounded-full bg-[#E8F9E8]">
                 <feature.icon className="text-[#6CC551] w-6 h-6" />
               </div>
