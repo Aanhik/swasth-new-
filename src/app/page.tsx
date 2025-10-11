@@ -147,7 +147,7 @@ const MagneticWrapper: React.FC<{ children: React.ReactElement }> = ({ children 
             element.removeEventListener('mousemove', handleMouseMove);
             element.removeEventListener('mouseleave', handleMouseLeave);
         };
-    }, [ref]);
+    }, []);
 
     return React.cloneElement(children, {
         ref,
@@ -208,7 +208,7 @@ export default function LandingPage() {
                 <div className="mt-12">
                     <LogoLoop>
                       {[...features, ...features].map((feature, index) => (
-                          <div key={index} className={`grid gap-2 p-4 rounded-lg backdrop-blur-sm w-64 flex-shrink-0 hover:shadow-[0_5px_15px_#6CC55133] hover:-translate-y-1 transition-all ${index % 2 === 0 ? 'bg-[#F8FFF8]' : 'bg-[#EEF9EE]'}`}>
+                          <div key={index} className="grid gap-2 p-4 rounded-lg backdrop-blur-sm w-64 flex-shrink-0 hover:shadow-[0_5px_15px_#6CC55133] hover:-translate-y-1 transition-all space-x-8">
                               {feature.icon}
                               <h3 className="text-lg font-bold">{feature.title}</h3>
                               <p className="text-sm text-muted-foreground">{feature.description}</p>
@@ -219,6 +219,23 @@ export default function LandingPage() {
             </div>
         </section>
 
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-t from-[#F8FFF8] to-background">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-primary">
+                Start your journey to better health today.
+              </h2>
+              <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                <Button asChild size="lg">
+                  <Link href="/signup">Sign Up Free</Link>
+                </Button>
+                <Button asChild variant="outline" size="lg">
+                  <Link href="/home?guest=true">Try as Guest</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       <footer className="flex items-center justify-center py-6 border-t">
           <p className="text-xs text-muted-foreground">&copy; {new Date().getFullYear()} SWASTH. All rights reserved.</p>
