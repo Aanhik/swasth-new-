@@ -102,7 +102,7 @@ const InteractiveWelcomeText = () => {
     }, []);
   
     return (
-      <h1 ref={containerRef} className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-primary">
+      <h1 ref={containerRef} className="text-5xl font-extrabold tracking-tight sm:text-6xl xl:text-7xl/none font-headline text-primary">
         {text.split('').map((char, index) => (
           <span key={index} className="inline-block transition-transform duration-100 ease-out" style={{ whiteSpace: char === ' ' ? 'pre' : 'normal'}}>
             {char}
@@ -174,7 +174,7 @@ export default function LandingPage() {
               <p className="max-w-[600px] text-muted-foreground md:text-xl -mt-2">
                 this is temporary we will get something better
               </p>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl">
+              <p className="max-w-[600px] text-muted-foreground text-lg leading-relaxed">
                 Your friendly AI health assistant. Take control of your health with powerful tools and personalized insights, all in one place.
               </p>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -200,7 +200,7 @@ export default function LandingPage() {
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="space-y-2">
                         <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Features to Empower Your Health</h2>
-                        <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                        <p className="max-w-[900px] text-muted-foreground text-lg leading-relaxed">
                             SWASTH provides a suite of tools to help you stay informed and proactive about your well-being.
                         </p>
                     </div>
