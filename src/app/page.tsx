@@ -6,7 +6,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
 import { SphereBackground } from '@/components/ui/sphere-background';
-import { LogoLoop } from '@/components/ui/logo-loop';
+import LogoLoop from '@/components/ui/logo-loop';
 
 const Logo = () => (
   <svg
@@ -19,14 +19,14 @@ const Logo = () => (
   >
     <path
       d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-      stroke="hsl(var(--primary))"
+      stroke="hsl(var(--destructive))"
       strokeWidth="2"
-      fill="hsl(var(--primary))"
+      fill="hsl(var(--destructive))"
       fillOpacity="0.1"
     />
     <path
       d="M15 10h-2V8a1 1 0 0 0-2 0v2H9a1 1 0 0 0 0 2h2v2a1 1 0 1 0 2 0v-2h2a1 1 0 1 0 0-2Z"
-      fill="hsl(var(--destructive))"
+      fill="hsl(var(--primary))"
     />
   </svg>
 );
@@ -104,7 +104,7 @@ const InteractiveWelcomeText = () => {
     return (
       <h1 ref={containerRef} className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-primary">
         {text.split('').map((char, index) => (
-          <span key={index} className="inline-block transition-transform duration-100 ease-out" style={{ whiteSpace: char === ' ' ? 'pre' : 'normal', marginRight: '0.2rem'}}>
+          <span key={index} className="inline-block transition-transform duration-100 ease-out" style={{ whiteSpace: char === ' ' ? 'pre' : 'normal'}}>
             {char}
           </span>
         ))}
@@ -150,6 +150,7 @@ const MagneticWrapper: React.FC<{ children: React.ReactElement }> = ({ children 
         parent.addEventListener('mouseleave', handleMouseLeave);
 
         return () => {
+            if (!parent) return;
             parent.removeEventListener('mousemove', handleMouseMove);
             parent.removeEventListener('mouseleave', handleMouseLeave);
         };
@@ -177,6 +178,9 @@ export default function LandingPage() {
                   <Logo />
                   <InteractiveWelcomeText />
               </div>
+              <p className="max-w-[600px] text-muted-foreground md:text-xl -mt-2">
+                this is temporary we will get something better
+              </p>
               <p className="max-w-[600px] text-muted-foreground md:text-xl">
                 Your friendly AI health assistant. Take control of your health with powerful tools and personalized insights, all in one place.
               </p>
