@@ -125,17 +125,10 @@ const MagneticWrapper: React.FC<{ children: React.ReactElement }> = ({ children 
 
         const deltaX = clientX - centerX;
         const deltaY = clientY - centerY;
-        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-        const maxDistance = 200;
-
-        if (distance < maxDistance) {
-            const moveX = deltaX * 0.2;
-            const moveY = deltaY * 0.2;
-            setPosition({ x: moveX, y: moveY });
-        } else {
-            setPosition({ x: 0, y: 0 });
-        }
+        
+        const moveX = deltaX * 0.2;
+        const moveY = deltaY * 0.2;
+        setPosition({ x: moveX, y: moveY });
     };
     
     const handleMouseLeave = () => {
@@ -143,16 +136,16 @@ const MagneticWrapper: React.FC<{ children: React.ReactElement }> = ({ children 
     };
 
     React.useEffect(() => {
-        const parent = ref.current?.parentElement;
-        if (!parent) return;
+        const element = ref.current;
+        if (!element) return;
 
-        parent.addEventListener('mousemove', handleMouseMove);
-        parent.addEventListener('mouseleave', handleMouseLeave);
+        element.addEventListener('mousemove', handleMouseMove);
+        element.addEventListener('mouseleave', handleMouseLeave);
 
         return () => {
-            if (!parent) return;
-            parent.removeEventListener('mousemove', handleMouseMove);
-            parent.removeEventListener('mouseleave', handleMouseLeave);
+            if (!element) return;
+            element.removeEventListener('mousemove', handleMouseMove);
+            element.removeEventListener('mouseleave', handleMouseLeave);
         };
     }, [ref]);
 
@@ -233,5 +226,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
 
     
