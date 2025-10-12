@@ -191,7 +191,7 @@ export default function LandingPage() {
                   <InteractiveWelcomeText />
               </div>
               <p className="max-w-[600px] text-muted-foreground text-lg leading-relaxed">
-                Your friendly AI health assistant. Take control of your health with powerful tools and personalized insights, all in one place.
+                Your AI health companion — here to understand, guide, and empower your well-being.
               </p>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <MagneticWrapper>
