@@ -93,12 +93,22 @@ export default {
         'logo-loop': {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-100%)' },
-        }
+        },
+        'glow-pulse-1': {
+          '0%, 100%': { transform: 'scale(1) translateX(-10%)', opacity: '0.4' },
+          '50%': { transform: 'scale(1.2) translateX(10%)', opacity: '0.7' },
+        },
+        'glow-pulse-2': {
+            '0%, 100%': { transform: 'scale(1) translateX(10%)', opacity: '0.4' },
+            '50%': { transform: 'scale(1.2) translateX(-10%)', opacity: '0.7' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'logo-loop': 'logo-loop 40s linear infinite',
+        'glow-pulse-1': 'glow-pulse-1 15s ease-in-out infinite',
+        'glow-pulse-2': 'glow-pulse-2 15s ease-in-out infinite',
       },
     },
   },

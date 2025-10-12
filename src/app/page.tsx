@@ -104,7 +104,7 @@ const InteractiveWelcomeText = () => {
     return (
       <h1 ref={containerRef} className="text-5xl font-extrabold tracking-tight sm:text-6xl xl:text-7xl/none font-headline text-primary">
         {text.split('').map((char, index) => (
-          <span key={index} className="inline-block transition-transform duration-100 ease-out" style={{ whiteSpace: char === ' ' ? 'pre' : 'normal'}}>
+          <span key={index} className="inline-block transition-transform duration-100 ease-out" style={{ whiteSpace: 'pre'}}>
             {char}
           </span>
         ))}
@@ -164,8 +164,16 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-b from-[#F7FFF8] via-[#ECFDEC] to-[#F8FFF8]">
-          <div className="container px-4 md:px-6">
+        <section className="relative w-full py-12 md:py-24 lg:py-32 xl:py-48 overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-gradient-to-b from-[#F7FFF8] via-[#ECFDEC] to-background"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] opacity-30"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-background to-transparent"></div>
+            <div className="absolute -bottom-1/2 left-1/2 w-1/2 h-1/2 bg-primary/10 rounded-full blur-3xl animate-glow-pulse-1"></div>
+            <div className="absolute -bottom-1/2 right-1/2 w-1/2 h-1/2 bg-destructive/10 rounded-full blur-3xl animate-glow-pulse-2"></div>
+          </div>
+
+          <div className="container px-4 md:px-6 relative z-10">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="flex items-center gap-4">
                   <Logo />
@@ -194,7 +202,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="w-full py-12 md:py-24 bg-card/80 relative overflow-hidden">
+        <section className="w-full py-12 md:py-24 bg-muted/40 relative overflow-hidden">
             <SphereBackground sphereColor="hsl(var(--accent-hsl))" />
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
