@@ -101,7 +101,7 @@ const AiAssistant = () => {
             ref={playerRef}
             autoplay
             loop
-            src="https://lottie.host/9c3e9a65-3c13-45a9-8438-e445347435a2/teaAovRePh.json"
+            src="https://lottie.host/28a2d83f-f294-493b-b4fe-4b8e8f064552/s2wUuOACd3.json"
             style={{ height: '40px', width: '40px' }}
         />
     );
@@ -170,6 +170,16 @@ function HomeContent() {
     }
   }, [searchParams]);
 
+  const handleGuestPopupClose = (open: boolean) => {
+    setShowGuestPopup(open);
+    if (!open) {
+      // Short delay to allow the first dialog to animate out
+      setTimeout(() => {
+        setShowAiAssistant(true);
+      }, 200);
+    }
+  };
+  
   const renderView = () => {
     switch (activeView) {
       case "symptom-analyzer":
@@ -248,7 +258,7 @@ function HomeContent() {
             {renderView()}
         </main>
       </SidebarInset>
-      <Dialog open={showGuestPopup} onOpenChange={setShowGuestPopup}>
+      <Dialog open={showGuestPopup} onOpenChange={handleGuestPopupClose}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
@@ -261,10 +271,10 @@ function HomeContent() {
           </DialogHeader>
           <DialogFooter className="flex flex-col gap-2 sm:flex-row">
             <Button asChild className="w-full">
-              <Link href="/login" onClick={() => setShowGuestPopup(false)}>Login</Link>
+              <Link href="/login" onClick={() => handleGuestPopupClose(false)}>Login</Link>
             </Button>
             <Button asChild variant="outline" className="w-full">
-              <Link href="/signup" onClick={() => setShowGuestPopup(false)}>Sign Up</Link>
+              <Link href="/signup" onClick={() => handleGuestPopupClose(false)}>Sign Up</Link>
             </Button>
           </DialogFooter>
         </DialogContent>
