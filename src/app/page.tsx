@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
 import { SphereBackground } from '@/components/ui/sphere-background';
 import LogoLoop from '@/components/ui/logo-loop';
+import { Player } from '@lottiefiles/react-lottie-player';
 
 const Logo = () => (
   <svg
@@ -171,6 +172,7 @@ const MagneticWrapper: React.FC<{ children: React.ReactElement }> = ({ children 
 
 
 export default function LandingPage() {
+    const playerRef = useRef<Player>(null);
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <main className="flex-1">
@@ -180,9 +182,15 @@ export default function LandingPage() {
           <div className="container px-4 md:px-6 relative z-10">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="flex items-center gap-4">
-                  <Logo />
-                  <InteractiveWelcomeText />
+                  <Player
+                    ref={playerRef}
+                    autoplay
+                    loop
+                    src="https://lottie.host/28a2d83f-f294-493b-b4fe-4b8e8f064552/s2wUuOACd3.json"
+                    style={{ height: '120px', width: '120px' }}
+                />
               </div>
+              <InteractiveWelcomeText />
               <p className="max-w-[600px] text-muted-foreground text-lg leading-relaxed">
                 Your AI health companion — here to understand, guide, and empower your well-being.
               </p>
