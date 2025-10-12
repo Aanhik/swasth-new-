@@ -7,7 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
 import { SphereBackground } from '@/components/ui/sphere-background';
 import LogoLoop from '@/components/ui/logo-loop';
-import { Player } from '@lottiefiles/react-lottie-player';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+
+
 
 const Logo = () => (
   <svg
@@ -34,7 +36,6 @@ const Logo = () => (
 
 const InteractiveWelcomeText: React.FC = () => {
     const containerRef = useRef<HTMLHeadingElement>(null);
-    const text = "Welcome to SWASTH";
 
     const handleMouseMove = (e: React.MouseEvent<HTMLHeadingElement>) => {
         if (!containerRef.current) return;
@@ -69,20 +70,11 @@ const InteractiveWelcomeText: React.FC = () => {
                         hsl(106, 58%, 30%) 40%,
                         hsl(106, 58%, 20%) 100%
                     );
-                    background-clip: text;
                     -webkit-background-clip: text;
-                    transition: color 0.2s ease;
+                    background-clip: text;
+                    transition: background-position 0.2s ease;
                 }
                 .interactive-headline > .text-welcome {
-                     color: transparent;
-                     background-image: radial-gradient(
-                        circle at var(--mouse-x) var(--mouse-y),
-                        #1E1E1E 0%,
-                        #555 40%,
-                        #999 100%
-                    );
-                    background-clip: text;
-                    -webkit-background-clip: text;
                     transition: color 0.2s ease;
                 }
                 `}
@@ -93,7 +85,7 @@ const InteractiveWelcomeText: React.FC = () => {
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
             >
-               <span className="text-welcome">Welcome&nbsp;to&nbsp;</span><span className="text-swasth">SWASTH</span>
+               <span className="text-welcome">Welcome&nbsp;to&nbsp;</span><span className="text-swasth font-bold">SWASTH</span>
             </h1>
         </>
     );
@@ -172,7 +164,6 @@ const MagneticWrapper: React.FC<{ children: React.ReactElement }> = ({ children 
 
 
 export default function LandingPage() {
-    const playerRef = useRef<Player>(null);
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <main className="flex-1">
@@ -182,12 +173,11 @@ export default function LandingPage() {
           <div className="container px-4 md:px-6 relative z-10">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="flex items-center gap-4">
-                  <Player
-                    ref={playerRef}
-                    autoplay
-                    loop
-                    src="https://lottie.host/28a2d83f-f294-493b-b4fe-4b8e8f064552/s2wUuOACd3.json"
-                    style={{ height: '120px', width: '120px' }}
+                <DotLottieReact
+                  src="https://lottie.host/28a2d83f-f294-493b-b4fe-4b8e8f064552/s2wUuOACd3.lottie"
+                  loop
+                  autoplay
+                  style={{ width: '200px', height: '140px' }}
                 />
               </div>
               <InteractiveWelcomeText />
@@ -236,7 +226,7 @@ export default function LandingPage() {
             </div>
         </section>
 
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-t from-[#F8FFF8] to-background">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/40">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-primary">
@@ -260,7 +250,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-    
-
-    
