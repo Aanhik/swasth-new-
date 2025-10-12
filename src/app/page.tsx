@@ -33,75 +33,70 @@ const Logo = () => (
 
 const InteractiveWelcomeText: React.FC = () => {
     const containerRef = useRef<HTMLHeadingElement>(null);
-    const [charStyles, setCharStyles] = useState<React.CSSProperties[]>([]);
     const text = "Welcome to SWASTH";
 
+    // This simplified approach uses CSS custom properties for a smoother effect
+    // and avoids per-character style updates in JavaScript.
     const handleMouseMove = (e: React.MouseEvent<HTMLHeadingElement>) => {
         if (!containerRef.current) return;
+        const { left, top, width, height } = containerRef.current.getBoundingClientRect();
+        const x = (e.clientX - left) / width;
+        const y = (e.clientY - top) / height;
 
-        const { left, top } = containerRef.current.getBoundingClientRect();
-        const mouseX = e.clientX - left;
-        const mouseY = e.clientY - top;
-
-        const spans = Array.from(containerRef.current.children) as HTMLSpanElement[];
-
-        const newStyles = spans.map((span) => {
-            const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = span;
-            const spanCenterX = offsetLeft + offsetWidth / 2;
-            const spanCenterY = offsetTop + offsetHeight / 2;
-
-            const distance = Math.sqrt(Math.pow(mouseX - spanCenterX, 2) + Math.pow(mouseY - spanCenterY, 2));
-            const maxDistance = 200;
-            const scale = Math.max(1, 1.5 - (distance / maxDistance));
-            const fontWeight = Math.max(400, 900 - (distance / maxDistance) * 500);
-
-            if (span.innerText.trim() === '') {
-              return { transition: 'none' };
-            }
-
-            return {
-                transform: `scale(${scale})`,
-                fontWeight: `${fontWeight}`,
-                transition: 'transform 0.1s ease-out, font-weight 0.1s ease-out',
-                color: span.dataset.swasth === 'true' ? `hsl(106, 58%, ${60 - (scale - 1) * 40}%)` : `hsl(0, 0%, ${20 - (scale - 1) * 20}%)`,
-            };
-        });
-
-        setCharStyles(newStyles);
+        containerRef.current.style.setProperty('--mouse-x', `${x * 100}%`);
+        containerRef.current.style.setProperty('--mouse-y', `${y * 100}%`);
     };
 
     const handleMouseLeave = () => {
-        setCharStyles([]);
+        if (!containerRef.current) return;
+        containerRef.current.style.setProperty('--mouse-x', '50%');
+        containerRef.current.style.setProperty('--mouse-y', '50%');
     };
 
-    const words = text.split(' ');
-
     return (
-        <h1
-            ref={containerRef}
-            className="text-5xl md:text-6xl text-[#1E1E1E] leading-tight tracking-tight flex items-center justify-center flex-wrap"
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-        >
-            {words.map((word, wordIndex) => (
-                <React.Fragment key={wordIndex}>
-                    {word.split('').map((char, charIndex) => {
-                        const globalIndex = words.slice(0, wordIndex).join(' ').length + (wordIndex > 0 ? 1 : 0) + charIndex;
-                        const isSwasth = word === 'SWASTH';
-                        return (
-                            <span
-                                key={charIndex}
-                                data-swasth={isSwasth}
-                                style={charStyles[globalIndex] || (isSwasth ? { color: 'hsl(var(--primary))', transition: 'transform 0.3s ease-out, font-weight 0.3s ease-out, color 0.3s ease-out' } : { transition: 'transform 0.3s ease-out, font-weight 0.3s ease-out, color 0.3s ease-out' })}
-                            >
-                                {char}
-                            </span>
-                        );
-                    })}
-                    {wordIndex < words.length - 1 && <span>&nbsp;</span>}
-                </React.Fragment>
-            ))}
-        </h1>
+        <>
+            <style>
+                {`
+                .interactive-headline {
+                    --mouse-x: 50%;
+                    --mouse-y: 50%;
+                    position: relative;
+                }
+                .interactive-headline > .text-swasth {
+                    color: transparent;
+                    background-image: radial-gradient(
+                        circle at var(--mouse-x) var(--mouse-y),
+                        hsl(var(--primary)) 0%,
+                        hsl(106, 58%, 30%) 40%,
+                        hsl(106, 58%, 20%) 100%
+                    );
+                    background-clip: text;
+                    -webkit-background-clip: text;
+                    transition: color 0.2s ease;
+                }
+                .interactive-headline > .text-welcome {
+                     color: transparent;
+                     background-image: radial-gradient(
+                        circle at var(--mouse-x) var(--mouse-y),
+                        #1E1E1E 0%,
+                        #555 40%,
+                        #999 100%
+                    );
+                    background-clip: text;
+                    -webkit-background-clip: text;
+                    transition: color 0.2s ease;
+                }
+                `}
+            </style>
+            <h1
+                ref={containerRef}
+                className="interactive-headline text-5xl md:text-6xl text-[#1E1E1E] leading-tight tracking-tight flex items-center justify-center flex-wrap"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+            >
+               <span className="text-welcome">Welcome&nbsp;to&nbsp;</span><span className="text-swasth">SWASTH</span>
+            </h1>
+        </>
     );
 };
 
@@ -265,3 +260,4 @@ export default function LandingPage() {
     
 
     
+
