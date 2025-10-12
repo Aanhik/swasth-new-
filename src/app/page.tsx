@@ -79,7 +79,7 @@ const InteractiveWelcomeText: React.FC = () => {
     return (
         <h1
             ref={containerRef}
-            className="text-5xl md:text-6xl font-extrabold text-[#1E1E1E] leading-tight tracking-tight flex items-center justify-center flex-wrap"
+            className="text-5xl md:text-6xl text-[#1E1E1E] leading-tight tracking-tight flex items-center justify-center flex-wrap font-bold"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
         >
@@ -243,7 +243,7 @@ export default function LandingPage() {
               </h2>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <Button asChild size="lg">
-                  <Link href="/signup">Sign Up Free</Link>
+                  <Link href="/signup">Sign Up</Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
                   <Link href="/home?guest=true">Try as Guest</Link>
@@ -259,5 +259,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
 
     
