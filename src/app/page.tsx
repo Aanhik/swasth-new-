@@ -2,7 +2,7 @@
 "use client";
 
 import Link from 'next/link';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
 import { SphereBackground } from '@/components/ui/sphere-background';
@@ -35,8 +35,6 @@ const InteractiveWelcomeText: React.FC = () => {
     const containerRef = useRef<HTMLHeadingElement>(null);
     const text = "Welcome to SWASTH";
 
-    // This simplified approach uses CSS custom properties for a smoother effect
-    // and avoids per-character style updates in JavaScript.
     const handleMouseMove = (e: React.MouseEvent<HTMLHeadingElement>) => {
         if (!containerRef.current) return;
         const { left, top, width, height } = containerRef.current.getBoundingClientRect();
@@ -254,10 +252,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-    
-
-    
-
-    
-
