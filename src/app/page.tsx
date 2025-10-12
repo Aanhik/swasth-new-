@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
 import { SphereBackground } from '@/components/ui/sphere-background';
 import LogoLoop from '@/components/ui/logo-loop';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { Player } from '@lottiefiles/react-lottie-player';
 
 
 
@@ -174,7 +174,7 @@ export default function LandingPage() {
           <div className="container px-4 md:px-6 relative z-10">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="flex items-center gap-4">
-                <DotLottieReact
+                <Player
                   src="https://lottie.host/28a2d83f-f294-493b-b4fe-4b8e8f064552/s2wUuOACd3.lottie"
                   loop
                   autoplay
@@ -251,5 +251,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
 
     
