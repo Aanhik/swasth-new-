@@ -79,7 +79,7 @@ const InteractiveWelcomeText: React.FC = () => {
     return (
         <h1
             ref={containerRef}
-            className="text-5xl md:text-6xl text-[#1E1E1E] leading-tight tracking-tight flex items-center justify-center flex-wrap font-bold"
+            className="text-5xl md:text-6xl text-[#1E1E1E] leading-tight tracking-tight flex items-center justify-center flex-wrap"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
         >
@@ -259,6 +259,8 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
 
     
 
