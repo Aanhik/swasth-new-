@@ -22,13 +22,24 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'lottie.host',
+        port: '',
+        pathname: '/**',
+      },
     ],
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60,
   },
   experimental: {
-    allowedDevOrigins: [
-      '6000-firebase-studio-1753550095397.cluster-xpmcxs2fjnhg6xvn446ubtgpio.cloudworkstations.dev',
-    ],
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  poweredByHeader: false,
+  
 };
 
 export default nextConfig;

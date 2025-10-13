@@ -1,58 +1,43 @@
-
-
 "use client";
 
 import Link from 'next/link';
 import React, { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
-import { SphereBackground } from '@/components/ui/sphere-background';
 import LogoLoop from '@/components/ui/logo-loop';
-import { Player } from '@lottiefiles/react-lottie-player';
-
-
-
-const Logo = () => (
-  <svg
-    width="60"
-    height="60"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="mb-4"
-  >
-    <path
-      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-      stroke="hsl(var(--destructive))"
-      strokeWidth="2"
-      fill="hsl(var(--destructive))"
-      fillOpacity="0.1"
-    />
-    <path
-      d="M15 10h-2V8a1 1 0 0 0-2 0v2H9a1 1 0 0 0 0 2h2v2a1 1 0 1 0 2 0v-2h2a1 1 0 1 0 0-2Z"
-      fill="hsl(var(--primary))"
-    />
-  </svg>
-);
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { Suspense } from 'react';
 
 const InteractiveWelcomeText: React.FC = () => {
     const containerRef = useRef<HTMLHeadingElement>(null);
+    const rafRef = useRef<number>();
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLHeadingElement>) => {
+    const handleMouseMove = React.useCallback((e: React.MouseEvent<HTMLHeadingElement>) => {
         if (!containerRef.current) return;
-        const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-        const x = (e.clientX - left) / width;
-        const y = (e.clientY - top) / height;
+        
+        if (rafRef.current) {
+            cancelAnimationFrame(rafRef.current);
+        }
+        
+        rafRef.current = requestAnimationFrame(() => {
+            if (!containerRef.current) return;
+            const { left, top, width, height } = containerRef.current.getBoundingClientRect();
+            const x = (e.clientX - left) / width;
+            const y = (e.clientY - top) / height;
 
-        containerRef.current.style.setProperty('--mouse-x', `${x * 100}%`);
-        containerRef.current.style.setProperty('--mouse-y', `${y * 100}%`);
-    };
+            containerRef.current.style.setProperty('--mouse-x', `${x * 100}%`);
+            containerRef.current.style.setProperty('--mouse-y', `${y * 100}%`);
+        });
+    }, []);
 
-    const handleMouseLeave = () => {
+    const handleMouseLeave = React.useCallback(() => {
+        if (rafRef.current) {
+            cancelAnimationFrame(rafRef.current);
+        }
         if (!containerRef.current) return;
         containerRef.current.style.setProperty('--mouse-x', '50%');
         containerRef.current.style.setProperty('--mouse-y', '50%');
-    };
+    }, []);
 
     return (
         <>
@@ -92,7 +77,6 @@ const InteractiveWelcomeText: React.FC = () => {
     );
 };
 
-
 const features = [
     {
       icon: <Stethoscope className="w-8 h-8 text-primary" />,
@@ -119,50 +103,64 @@ const features = [
 const MagneticWrapper: React.FC<{ children: React.ReactElement }> = ({ children }) => {
     const ref = React.useRef<HTMLDivElement>(null);
     const [position, setPosition] = React.useState({ x: 0, y: 0 });
+    const rafRef = React.useRef<number>();
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = React.useCallback((e: MouseEvent) => {
         if (!ref.current) return;
-        const { clientX, clientY } = e;
-        const { width, height, left, top } = ref.current.getBoundingClientRect();
-        const centerX = left + width / 2;
-        const centerY = top + height / 2;
-
-        const deltaX = clientX - centerX;
-        const deltaY = clientY - centerY;
         
-        const moveX = deltaX * 0.2;
-        const moveY = deltaY * 0.2;
-        setPosition({ x: moveX, y: moveY });
-    };
+        if (rafRef.current) {
+            cancelAnimationFrame(rafRef.current);
+        }
+        
+        rafRef.current = requestAnimationFrame(() => {
+            if (!ref.current) return;
+            const { clientX, clientY } = e;
+            const { width, height, left, top } = ref.current.getBoundingClientRect();
+            const centerX = left + width / 2;
+            const centerY = top + height / 2;
+
+            const deltaX = clientX - centerX;
+            const deltaY = clientY - centerY;
+            
+            const moveX = deltaX * 0.15;
+            const moveY = deltaY * 0.15;
+            setPosition({ x: moveX, y: moveY });
+        });
+    }, []);
     
-    const handleMouseLeave = () => {
+    const handleMouseLeave = React.useCallback(() => {
+        if (rafRef.current) {
+            cancelAnimationFrame(rafRef.current);
+        }
         setPosition({ x: 0, y: 0 });
-    };
+    }, []);
 
     React.useEffect(() => {
         const element = ref.current;
         if (!element) return;
 
-        element.addEventListener('mousemove', handleMouseMove);
+        element.addEventListener('mousemove', handleMouseMove, { passive: true });
         element.addEventListener('mouseleave', handleMouseLeave);
 
         return () => {
             if (!element) return;
             element.removeEventListener('mousemove', handleMouseMove);
             element.removeEventListener('mouseleave', handleMouseLeave);
+            if (rafRef.current) {
+                cancelAnimationFrame(rafRef.current);
+            }
         };
-    }, []);
+    }, [handleMouseMove, handleMouseLeave]);
 
     return React.cloneElement(children, {
         ref,
         style: {
             transform: `translate(${position.x}px, ${position.y}px)`,
-            transition: 'transform 0.1s ease-out',
+            transition: 'transform 0.15s ease-out',
             willChange: 'transform'
         }
     });
 };
-
 
 export default function LandingPage() {
   return (
@@ -174,12 +172,14 @@ export default function LandingPage() {
           <div className="container px-4 md:px-6 relative z-10">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="flex items-center gap-4">
-                <Player
-                  src="https://lottie.host/28a2d83f-f294-493b-b4fe-4b8e8f064552/s2wUuOACd3.lottie"
-                  loop
-                  autoplay
-                  style={{ width: '200px', height: '140px' }}
-                />
+                <Suspense fallback={<div className="w-[200px] h-[180px] bg-gradient-to-br from-primary/20 to-primary/5 rounded-lg animate-pulse" />}>
+                  <DotLottieReact
+                    src="https://lottie.host/28a2d83f-f294-493b-b4fe-4b8e8f064552/s2wUuOACd3.lottie"
+                    loop
+                    autoplay
+                    style={{ width: '200px', height: '180px' }}
+                  />
+                </Suspense>
               </div>
               <InteractiveWelcomeText />
               <p className="max-w-[600px] text-muted-foreground text-lg leading-relaxed">
@@ -203,7 +203,6 @@ export default function LandingPage() {
         </section>
 
         <section className="w-full py-12 md:py-24 bg-muted/40 relative overflow-hidden">
-            <SphereBackground sphereColor="hsl(var(--accent-hsl))" />
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="space-y-2">
@@ -251,7 +250,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-    
-
-    

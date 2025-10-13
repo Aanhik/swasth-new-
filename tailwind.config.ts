@@ -106,7 +106,7 @@ export default {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'logo-loop': 'logo-loop 40s linear infinite',
+        'logo-loop': 'logo-loop 60s linear infinite',
         'glow-pulse-1': 'glow-pulse-1 15s ease-in-out infinite',
         'glow-pulse-2': 'glow-pulse-2 15s ease-in-out infinite',
       },
