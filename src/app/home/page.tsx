@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
 import Link from 'next/link';
-import { Player } from '@lottiefiles/react-lottie-player';
+
 
 import dynamic from 'next/dynamic'
 import { DashboardSkeleton, GenericViewSkeleton } from '@/components/skeletons/home-skeletons'
@@ -66,7 +66,6 @@ const AiAssistant = () => {
     const [messages, setMessages] = useState<{ sender: 'user' | 'bot'; text: string }[]>([]);
     const [inputValue, setInputValue] = useState('');
     const scrollAreaRef = useRef<HTMLDivElement>(null);
-    const playerRef = useRef<Player>(null);
   
     const handleSendMessage = () => {
       if (inputValue.trim()) {
@@ -89,21 +88,13 @@ const AiAssistant = () => {
       }
     }, [messages]);
 
-    const AiBotAvatar = () => (
-        <Player
-            ref={playerRef}
-            autoplay
-            loop
-            src="https://lottie.host/28a2d83f-f294-493b-b4fe-4b8e8f064552/s2wUuOACd3.json"
-            style={{ height: '40px', width: '40px' }}
-        />
-    );
+
   
     return (
         <Card className="w-80 h-96 flex flex-col shadow-2xl animate-in fade-in-50 zoom-in-95">
             <CardHeader className="flex flex-row items-center justify-between p-3 border-b">
                 <CardTitle className="text-lg flex items-center gap-2 font-headline">
-                <AiBotAvatar />
+                
                 AI Assistant
                 </CardTitle>
             </CardHeader>
@@ -114,7 +105,7 @@ const AiAssistant = () => {
                     <div key={index} className={`flex items-end gap-2 ${msg.sender === 'user' ? 'justify-end' : ''}`}>
                         {msg.sender === 'bot' && (
                             <div className="w-8 h-8">
-                                <AiBotAvatar />
+                                
                             </div>
                         )}
                         <div className={`rounded-lg px-3 py-2 text-sm ${msg.sender === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
