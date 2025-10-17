@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -29,6 +28,7 @@ import { Player } from '@lottiefiles/react-lottie-player';
 
 import dynamic from 'next/dynamic'
 import { DashboardSkeleton, GenericViewSkeleton } from '@/components/skeletons/home-skeletons'
+
 
 const Dashboard = dynamic(() => import('@/components/swasth/dashboard'), { ssr: false, loading: () => <DashboardSkeleton /> })
 const SymptomAnalyzer = dynamic(() => import('@/components/swasth/symptom-analyzer'), { ssr: false, loading: () => <GenericViewSkeleton /> })
@@ -152,6 +152,7 @@ function HomeContent() {
   const [activeView, setActiveView] = useState<View>("dashboard");
   const [showGuestPopup, setShowGuestPopup] = useState(false);
   const [showAiAssistant, setShowAiAssistant] = useState(false);
+  const [backendMessage, setBackendMessage] = useState('');
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -162,6 +163,7 @@ function HomeContent() {
       return () => clearTimeout(timer);
     }
   }, [searchParams]);
+
 
   const handleGuestPopupClose = (open: boolean) => {
     setShowGuestPopup(open);
