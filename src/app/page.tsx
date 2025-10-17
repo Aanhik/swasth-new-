@@ -1,11 +1,11 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import React, { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
 import LogoLoop from '@/components/ui/logo-loop';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { Suspense } from 'react';
 
 const InteractiveWelcomeText: React.FC = () => {
@@ -75,6 +75,38 @@ const InteractiveWelcomeText: React.FC = () => {
             </h1>
         </>
     );
+};
+
+// Logo with image + SVG fallback
+const LogoBadge: React.FC = () => {
+  const [imgErrored, setImgErrored] = React.useState(false);
+  return (
+    <div className="mb-2 inline-flex items-center justify-center rounded-xl bg-white/80 backdrop-blur-sm ring-1 ring-[#6CC551]/30 p-1 shadow-sm">
+      {!imgErrored ? (
+        <Image
+          src="/logo.png"
+          alt="SWASTH logo"
+          width={96}
+          height={96}
+          className="h-14 w-14 md:h-16 md:w-16 lg:h-20 lg:w-20 select-none"
+          priority
+          onError={() => setImgErrored(true)}
+        />
+      ) : (
+        <svg
+          width="80"
+          height="80"
+          viewBox="0 0 200 200"
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-14 w-14 md:h-16 md:w-16 lg:h-20 lg:w-20"
+        >
+          <path d="M100 170c-5-4-45-41-60-56C21 95 20 70 35 52c16-19 45-20 63-2l2 2 2-2c18-18 47-17 63 2 15 18 14 43-5 62-15 15-55 52-60 56z" fill="none" stroke="#59A552" strokeWidth="14" strokeLinejoin="round" strokeLinecap="round"/>
+          <rect x="114" y="86" width="18" height="48" rx="6" fill="#F24242"/>
+          <rect x="96" y="104" width="54" height="18" rx="6" fill="#F24242"/>
+        </svg>
+      )}
+    </div>
+  );
 };
 
 const features = [
@@ -165,44 +197,73 @@ const MagneticWrapper: React.FC<{ children: React.ReactElement }> = ({ children 
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
+      <header className="sticky top-0 z-50 border border-[#6CC551] bg-white/10 backdrop-blur-md supports-[backdrop-filter]:bg-white/10 shadow-[0_8px_30px_rgba(108,197,81,0.25)]">
+        <div className="container mx-auto px-4 md:px-6 h-14 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 font-semibold">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 text-primary">S</span>
+            <span>SWASTH</span>
+          </Link>
+          <nav className="hidden md:flex items-center gap-6 text-sm">
+            <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">About Us</a>
+            <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact Us</a>
+            <a href="#help" className="text-muted-foreground hover:text-foreground transition-colors">Help</a>
+          </nav>
+          <div className="flex items-center gap-2">
+            <Button asChild variant="ghost" className="hidden sm:inline-flex">
+              <Link href="/login">Login</Link>
+            </Button>
+            <Button asChild size="sm">
+              <Link href="/signup">Sign Up</Link>
+            </Button>
+          </div>
+        </div>
+      </header>
       <main className="flex-1">
         <section className="relative w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-b from-white via-[#F5FFF5] to-[#E8FDE8] overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(108,197,81,0.15),transparent_70%)]" />
 
           <div className="container px-4 md:px-6 relative z-10">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="flex items-center gap-4">
-                <Suspense fallback={<div className="w-[200px] h-[180px] bg-gradient-to-br from-primary/20 to-primary/5 rounded-lg animate-pulse" />}>
-                  <DotLottieReact
-                    src="https://lottie.host/28a2d83f-f294-493b-b4fe-4b8e8f064552/s2wUuOACd3.lottie"
-                    loop
-                    autoplay
-                    style={{ width: '200px', height: '180px' }}
-                  />
-                </Suspense>
-              </div>
-              <InteractiveWelcomeText />
-              <p className="max-w-[600px] text-muted-foreground text-lg leading-relaxed">
-                Your AI health companion — here to understand, guide, and empower your well-being.
-              </p>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <MagneticWrapper>
-                    <Button asChild size="lg" className="hover:scale-105 hover:shadow-[0_0_15px_hsl(var(--primary))] transition-all duration-200">
-                      <Link href="/login">Login</Link>
-                    </Button>
-                </MagneticWrapper>
-                <Button asChild variant="outline" size="lg" className="hover:scale-105 hover:shadow-[0_0_15px_hsl(var(--primary))] transition-all duration-200">
-                  <Link href="/signup">Sign Up</Link>
-                </Button>
-              </div>
-               <Link href="/home?guest=true" className="underline text-[#6CC551] hover:text-[#4CAF50]">
+            <div className="grid items-center gap-10 md:grid-cols-2 md:-mt-4 lg:-mt-6">
+              {/* Left: Headline and CTAs */}
+              <div className="flex flex-col items-start justify-center space-y-6 text-left md:pl-4 lg:pl-6 xl:pl-10">
+                {/* Logo above headline with fallback SVG */}
+                <LogoBadge />
+                <InteractiveWelcomeText />
+                <p className="max-w-[600px] text-muted-foreground text-lg leading-relaxed">
+                  Your AI health companion — here to understand, guide, and empower your well-being.
+                </p>
+                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                  <MagneticWrapper>
+                      <Button asChild size="lg" className="hover:scale-105 hover:shadow-[0_0_15px_hsl(var(--primary))] transition-all duration-200">
+                        <Link href="/login">Login</Link>
+                      </Button>
+                  </MagneticWrapper>
+                  <Button asChild variant="outline" size="lg" className="hover:scale-105 hover:shadow-[0_0_15px_hsl(var(--primary))] transition-all duration-200">
+                    <Link href="/signup">Sign Up</Link>
+                  </Button>
+                </div>
+                <Link href="/home?guest=true" className="underline text-[#6CC551] hover:text-[#4CAF50]">
                   Continue as Guest
-               </Link>
+                </Link>
+              </div>
+
+              {/* Right: Lottie Animation (iframe embed) */}
+              <div className="flex items-center justify-center md:justify-end">
+                <div className="w-[360px] h-[340px] sm:w-[420px] sm:h-[400px] md:w-[520px] md:h-[500px] lg:w-[600px] lg:h-[560px] overflow-visible">
+                  <iframe
+                    src="https://lottie.host/embed/39edfa48-086d-451e-9a82-e23fb446213a/y36opDC2kq.lottie?background=transparent"
+                    title="Doctor animation"
+                    style={{ width: '100%', height: '100%', border: 'none', background: 'transparent' }}
+                    allow="autoplay"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="w-full py-12 md:py-24 bg-muted/40 relative overflow-hidden">
+        <section id="features" className="w-full py-12 md:py-24 bg-muted/40 relative overflow-hidden">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="space-y-2">
@@ -239,6 +300,65 @@ export default function LandingPage() {
                 <Button asChild variant="outline" size="lg">
                   <Link href="/home?guest=true">Try as Guest</Link>
                 </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* About Us */}
+        <section id="about" className="w-full py-16 md:py-24 bg-white/70">
+          <div className="container px-4 md:px-6">
+            <div className="max-w-3xl mx-auto text-center space-y-4">
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">About Us</h2>
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                SWASTH is your AI-powered health companion. We help you analyze symptoms,
+                get personalized guidance, and make informed decisions — all while keeping your
+                data private and secure.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Us */}
+        <section id="contact" className="w-full py-16 md:py-24 bg-muted/40">
+          <div className="container px-4 md:px-6">
+            <div className="max-w-4xl mx-auto grid gap-8 md:grid-cols-3">
+              <div className="rounded-lg border p-6 bg-white/60 backdrop-blur">
+                <h3 className="font-semibold mb-2">Email</h3>
+                <p className="text-muted-foreground">Reach us anytime.</p>
+                <a href="mailto:support@swasth.app" className="text-primary underline mt-2 inline-block">support@swasth.app</a>
+              </div>
+              <div className="rounded-lg border p-6 bg-white/60 backdrop-blur">
+                <h3 className="font-semibold mb-2">Community</h3>
+                <p className="text-muted-foreground">Join the discussion.</p>
+                <a href="#" className="text-primary underline mt-2 inline-block">Discord</a>
+              </div>
+              <div className="rounded-lg border p-6 bg-white/60 backdrop-blur">
+                <h3 className="font-semibold mb-2">Feedback</h3>
+                <p className="text-muted-foreground">Have ideas? Tell us.</p>
+                <a href="#" className="text-primary underline mt-2 inline-block">Submit feedback</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Help */}
+        <section id="help" className="w-full py-16 md:py-24">
+          <div className="container px-4 md:px-6">
+            <div className="max-w-3xl mx-auto space-y-6">
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center">Help</h2>
+              <div className="space-y-4">
+                <div className="rounded-lg border p-5">
+                  <h3 className="font-semibold">How do I analyze symptoms?</h3>
+                  <p className="text-muted-foreground mt-1">Go to Symptom Analyzer, describe your symptoms, and receive instant insights.</p>
+                </div>
+                <div className="rounded-lg border p-5">
+                  <h3 className="font-semibold">Can I use SWASTH without an account?</h3>
+                  <p className="text-muted-foreground mt-1">Yes, click Try as Guest from the navbar or hero section.</p>
+                </div>
+                <div className="rounded-lg border p-5">
+                  <h3 className="font-semibold">Is my data private?</h3>
+                  <p className="text-muted-foreground mt-1">We follow strict privacy practices and never share your data without consent.</p>
+                </div>
               </div>
             </div>
           </div>
