@@ -2,6 +2,7 @@
 "use client"
 
 import Link from "next/link"
+import { useRouter } from 'next/navigation'
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -60,6 +61,7 @@ const Logo = () => (
 
 export default function SignupForm() {
     const { toast } = useToast()
+    const router = useRouter()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -143,11 +145,17 @@ export default function SignupForm() {
                 Login
             </Link>
             </div>
-             <div className="mt-2 text-center text-sm">
-             <Link href="/home?guest=true" className="underline text-muted-foreground">
-                Continue as Guest
-            </Link>
-            </div>
+                 <div className="mt-2 text-center text-sm">
+                 <Link
+                     href="/home?guest=true"
+                     prefetch={true}
+                     onMouseEnter={() => router.prefetch('/home')}
+                     onFocus={() => router.prefetch('/home')}
+                     className="underline text-muted-foreground"
+                 >
+                     Continue as Guest
+                </Link>
+                </div>
         </CardContent>
         </Card>
     </div>

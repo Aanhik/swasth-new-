@@ -1,12 +1,13 @@
 "use client";
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import React, { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Stethoscope, HeartPulse, Scale, Lightbulb } from 'lucide-react';
 import LogoLoop from '@/components/ui/logo-loop';
-import { Suspense } from 'react';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const InteractiveWelcomeText: React.FC = () => {
     const containerRef = useRef<HTMLHeadingElement>(null);
@@ -81,17 +82,17 @@ const InteractiveWelcomeText: React.FC = () => {
 const LogoBadge: React.FC = () => {
   const [imgErrored, setImgErrored] = React.useState(false);
   return (
-    <div className="mb-2 inline-flex items-center justify-center rounded-xl bg-white/80 backdrop-blur-sm ring-1 ring-[#6CC551]/30 p-1 shadow-sm">
+  <div className="mb-2 hidden sm:inline-flex items-center justify-center rounded-xl bg-white/80 backdrop-blur-sm ring-1 ring-[#6CC551]/30 p-1 shadow-sm">
       {!imgErrored ? (
-        <Image
-          src="/logo.png"
-          alt="SWASTH logo"
-          width={96}
-          height={96}
-          className="h-14 w-14 md:h-16 md:w-16 lg:h-20 lg:w-20 select-none"
-          priority
-          onError={() => setImgErrored(true)}
-        />
+      <Image
+        src="/images/logo1.png"
+        alt="SWASTH logo"
+        width={96}
+        height={96}
+        className="h-14 w-14 md:h-16 md:w-16 lg:h-20 lg:w-20 select-none"
+        priority
+        onError={() => setImgErrored(true)}
+      />
       ) : (
         <svg
           width="80"
@@ -195,15 +196,24 @@ const MagneticWrapper: React.FC<{ children: React.ReactElement }> = ({ children 
 };
 
 export default function LandingPage() {
+  const router = useRouter()
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <header className="sticky top-0 z-50 border border-[#6CC551] bg-white/10 backdrop-blur-md supports-[backdrop-filter]:bg-white/10 shadow-[0_8px_30px_rgba(108,197,81,0.25)]">
-        <div className="container mx-auto px-4 md:px-6 h-14 flex items-center justify-between">
+      <header className="sticky top-0 z-50 border border-[#6CC551] bg-white backdrop-blur-md supports-[backdrop-filter]:bg-white/10 shadow-[0_8px_30px_rgba(108,197,81,0.25)]">
+        <div className="container mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 font-semibold">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 text-primary">S</span>
-            <span>SWASTH</span>
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 text-primary">
+                <Image
+                  src="/favicon.ico"   
+                  alt="SWASTH icon"
+                  width={30}           
+                  height={30}
+                  className="object-contain"
+                />
+            </span>
+            <span className="text-xl md:text-2xl lg:text-3xl">SWASTH</span>
           </Link>
-          <nav className="hidden md:flex items-center gap-6 text-sm">
+          <nav className="hidden md:flex items-center gap-6 text-base">
             <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">About Us</a>
             <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact Us</a>
             <a href="#help" className="text-muted-foreground hover:text-foreground transition-colors">Help</a>
@@ -219,7 +229,7 @@ export default function LandingPage() {
         </div>
       </header>
       <main className="flex-1">
-        <section className="relative w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-b from-white via-[#F5FFF5] to-[#E8FDE8] overflow-hidden">
+        <section className="relative w-full -mt-24 py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-b from-white via-[#F5FFF5] to-[#E8FDE8] overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(108,197,81,0.15),transparent_70%)]" />
 
           <div className="container px-4 md:px-6 relative z-10">
@@ -227,8 +237,7 @@ export default function LandingPage() {
               {/* Left: Headline and CTAs */}
               <div className="flex flex-col items-start justify-center space-y-6 text-left md:pl-4 lg:pl-6 xl:pl-10">
                 {/* Logo above headline with fallback SVG */}
-                <LogoBadge />
-                <InteractiveWelcomeText />
+                <span><LogoBadge /><InteractiveWelcomeText /></span>
                 <p className="max-w-[600px] text-muted-foreground text-lg leading-relaxed">
                   Your AI health companion — here to understand, guide, and empower your well-being.
                 </p>
@@ -242,7 +251,13 @@ export default function LandingPage() {
                     <Link href="/signup">Sign Up</Link>
                   </Button>
                 </div>
-                <Link href="/home?guest=true" className="underline text-[#6CC551] hover:text-[#4CAF50]">
+                <Link
+                  href="/home?guest=true"
+                  prefetch={true}
+                  onMouseEnter={() => router.prefetch('/home')}
+                  onFocus={() => router.prefetch('/home')}
+                  className="underline text-[#6CC551] hover:text-[#4CAF50]"
+                >
                   Continue as Guest
                 </Link>
               </div>
@@ -250,12 +265,10 @@ export default function LandingPage() {
               {/* Right: Lottie Animation (iframe embed) */}
               <div className="flex items-center justify-center md:justify-end">
                 <div className="w-[360px] h-[340px] sm:w-[420px] sm:h-[400px] md:w-[520px] md:h-[500px] lg:w-[600px] lg:h-[560px] overflow-visible">
-                  <iframe
-                    src="https://lottie.host/embed/39edfa48-086d-451e-9a82-e23fb446213a/y36opDC2kq.lottie?background=transparent"
-                    title="Doctor animation"
-                    style={{ width: '100%', height: '100%', border: 'none', background: 'transparent' }}
-                    allow="autoplay"
-                    allowFullScreen
+                  <DotLottieReact
+                    src="lotteanimation/hospital-5(1).lottie"
+                    loop
+                    autoplay
                   />
                 </div>
               </div>

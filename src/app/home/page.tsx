@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { LayoutDashboard, Stethoscope, HeartPulse, CalendarCheck, Scale, Lightbulb, Upload, ArrowLeft, UserPlus, Bot, X, Send } from 'lucide-react';
@@ -26,13 +27,16 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import Link from 'next/link';
 import { Player } from '@lottiefiles/react-lottie-player';
 
-import Dashboard from '@/components/swasth/dashboard';
-import SymptomAnalyzer from '@/components/swasth/symptom-analyzer';
-import MedicalAdvice from '@/components/swasth/medical-advice';
-import AppointmentBooking from '@/components/swasth/appointment-booking';
-import PriceComparison from '@/components/swasth/price-comparison';
-import HealthTips from '@/components/swasth/health-tips';
-import ReadPrescription from '@/components/swasth/read-prescription';
+import dynamic from 'next/dynamic'
+import { DashboardSkeleton, GenericViewSkeleton } from '@/components/skeletons/home-skeletons'
+
+const Dashboard = dynamic(() => import('@/components/swasth/dashboard'), { ssr: false, loading: () => <DashboardSkeleton /> })
+const SymptomAnalyzer = dynamic(() => import('@/components/swasth/symptom-analyzer'), { ssr: false, loading: () => <GenericViewSkeleton /> })
+const MedicalAdvice = dynamic(() => import('@/components/swasth/medical-advice'), { ssr: false, loading: () => <GenericViewSkeleton /> })
+const AppointmentBooking = dynamic(() => import('@/components/swasth/appointment-booking'), { ssr: false, loading: () => <GenericViewSkeleton /> })
+const PriceComparison = dynamic(() => import('@/components/swasth/price-comparison'), { ssr: false, loading: () => <GenericViewSkeleton /> })
+const HealthTips = dynamic(() => import('@/components/swasth/health-tips'), { ssr: false, loading: () => <GenericViewSkeleton /> })
+const ReadPrescription = dynamic(() => import('@/components/swasth/read-prescription'), { ssr: false, loading: () => <GenericViewSkeleton /> })
 
 type View = "dashboard" | "symptom-analyzer" | "medical-advice" | "appointment-booking" | "price-comparison" | "health-tips" | "read-prescription";
 
@@ -47,25 +51,14 @@ const viewTitles: Record<View, string> = {
 };
 
 const Logo = () => (
-  <svg
-    width="28"
-    height="28"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-      stroke="hsl(var(--primary))"
-      strokeWidth="2"
-      fill="hsl(var(--primary))"
-      fillOpacity="0.1"
-    />
-    <path
-      d="M15 10h-2V8a1 1 0 0 0-2 0v2H9a1 1 0 0 0 0 2h2v2a1 1 0 1 0 2 0v-2h2a1 1 0 1 0 0-2Z"
-      fill="hsl(var(--destructive))"
-    />
-  </svg>
+  <Image
+    src="/images/logo1.png"
+    alt="SWASTH logo"
+    width={28}
+    height={28}
+    className="object-contain"
+    priority
+  />
 );
 
 
