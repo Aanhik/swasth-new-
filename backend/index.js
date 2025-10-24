@@ -29,6 +29,32 @@ const medicineSchema = new mongoose.Schema({
 
 const Medicine = mongoose.model('Medicine', medicineSchema);
 
+// Collaborator Doctor Schema
+const doctorSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  specialty: { type: String },
+  email: { type: String },
+  phone: { type: String },
+  experienceYears: { type: Number },
+  rating: { type: Number },
+  bio: { type: String }
+});
+
+const Doctor = mongoose.model('Doctor', doctorSchema);
+
+// Appointment Schema for collaborator bookings
+const appointmentSchema = new mongoose.Schema({
+  patientName: { type: String, required: true },
+  email: { type: String },
+  doctor: { type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' },
+  date: { type: Date, required: true },
+  symptoms: { type: String },
+  status: { type: String, default: 'pending' },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const Appointment = mongoose.model('Appointment', appointmentSchema);
+
 // Seed medicines (run once, comment after first run)
 async function seedMedicines() {
   const count = await Medicine.countDocuments();
@@ -60,6 +86,40 @@ async function seedMedicines() {
 app.get('/api/medicines', async (req, res) => {
   const meds = await Medicine.find();
   res.json(meds);
+});
+
+// API endpoint to list collaborator doctors
+app.get('/api/doctors', async (req, res) => {
+  const docs = await Doctor.find().sort({ name: 1 });
+  res.json(docs);
+});
+
+// Create an appointment for a collaborator doctor
+app.post('/api/appointments', async (req, res) => {
+  try {
+    const { patientName, email, doctorId, date, symptoms } = req.body;
+    if (!patientName || !doctorId || !date) {
+      return res.status(400).json({ error: 'patientName, doctorId and date are required' });
+    }
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) return res.status(404).json({ error: 'Doctor not found' });
+
+    const appt = new Appointment({
+      patientName,
+      email,
+      doctor: doctor._id,
+      date: new Date(date),
+      symptoms
+    });
+    await appt.save();
+
+    // TODO: notify provider (email/SMS) - integrate later
+
+    res.json({ success: true, appointment: appt });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // app.get('/api/hello', (req, res) => {
